@@ -9,7 +9,6 @@ Termux 0.118.0 Добавлен автозапуск, и выполнение с
 Для доступа SSH необходимо прописать пароль в системе  командой "passwd" в консоли
 
 Сгененрировать ключ "termux.pub" можно через программу Bitvise SSH Client
-![img.png](img.png)
 <img src="https://github.com/MyasnikovIA/Termux_boot_ssh/blob/main/img.png?raw=true"/>
 
 
