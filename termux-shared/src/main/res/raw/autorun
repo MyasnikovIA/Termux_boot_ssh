@@ -1,0 +1,13 @@
+# Скрипт запускается после перезакпуска Termux
+
+# запуск SSH
+# /data/data/com.termux/files/usr/var/service/sshd
+sshd
+
+# Запуск VNC сервер
+#vncserver -xstartup /data/data/com.termux/files/usr/bin/startxfce4 -listen tcp  :1
+
+# Запуск PythonScript(Скрипт не должен блокироваться или скрипт должен запускатся последней командой)
+#python /.termux/boot/autorun.py
+
+

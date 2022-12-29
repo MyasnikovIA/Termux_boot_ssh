@@ -1,0 +1,27 @@
+from multiprocessing import Process
+import os
+from time import sleep
+
+def runTerminalServer():
+    os.system("python ./storage/shared/PyWebServer_2/app.py")
+    pass
+
+
+def runFlaskServer():
+    os.system("python ./storage/shared/Flask_D3_v2/app/app.py")
+    pass
+
+
+if __name__ == "__main__":
+
+   cpr1 = Process(target=runTerminalServer)
+   cpr1.daemon = True
+   cpr1.start()
+
+   cpr2 = Process(target=runFlaskServer)
+   cpr2.daemon = True
+   cpr2.start()
+
+   while True:  # безконечный цикл
+      sleep(200)
+pass

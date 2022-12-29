@@ -1,0 +1,19 @@
+# запуск Redis сервера
+redis-server
+
+# -----------------------------------------------------------------------------------------
+# Настройка Redis в файле /data/data/com.termux/files/usr/etc/redis.conf
+# -----------------------------------------------------------------------------------------
+# echo "port              6379" >> /data/data/com.termux/files/usr/etc/redis/6379.conf
+# echo "daemonize         yes" >> /data/data/com.termux/files/usr/etc/redis/6379.conf
+# echo "save              60 1" >> /data/data/com.termux/files/usr/etc/redis/6379.conf
+# echo "bind              127.0.0.1" >> /data/data/com.termux/files/usr/etc/redis/6379.conf
+# echo "tcp-keepalive     300" >> /data/data/com.termux/files/usr/etc/redis/6379.conf
+# echo "dbfilename        dump.rdb" >> /data/data/com.termux/files/usr/etc/redis/6379.conf
+# echo "dir               ./" >> /data/data/com.termux/files/usr/etc/redis/6379.conf
+# echo "rdbcompression    yes" >> /data/data/com.termux/files/usr/etc/redis/6379.conf
+# -------------------------------------------
+# Запуск Redis с новой конфигурацией
+# redis-server /data/data/com.termux/files/usr/etc/redis/6379.conf
+# -------------------------------------------
+# -----------------------------------------------------------------------------------------

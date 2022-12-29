@@ -1,0 +1,9 @@
+# ----------- Запуск OpenVPN connect  (MyasnikovIA.asuscomm.com - имя профиля) -----------
+# -----------                 https://openvpn.net/                       -----------
+# ----------------------------------------------------------------------------------
+# am start -n net.openvpn.openvpn/net.openvpn.unified.MainActivity \
+# -a net.openvpn.openvpn.CONNECT \
+# --es net.openvpn.openvpn.APP_SECTION PC \
+# --es net.openvpn.openvpn.AUTOSTART_PROFILE_NAME "PC MyasnikovIA.asuscomm.com" \
+# --ez net.openvpn.openvpn.AUTOCONNECT true
+# ----------------------------------------------------------------------------------

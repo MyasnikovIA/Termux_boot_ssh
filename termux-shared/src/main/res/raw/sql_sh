@@ -1,0 +1,15 @@
+pkg install postgresql -y && \
+cd ../ && \
+mkdir postgres && \
+initdb ./postgres && \
+echo "host    all        all             192.168.0.0/24         md5" >> /data/data/com.termux/files/home/postgres/pg_hba.conf && \
+echo "listen_addresses = '*'" >> /data/data/com.termux/files/home/postgres/postgresql.conf  && \
+
+echo " " >> /data/data/com.termux/files/home/.termux/boot/start_postgres.sh && \
+echo "# Запуск PostgreSQL " >> /data/data/com.termux/files/home/.termux/boot/start_postgres.sh && \
+echo "pg_ctl -D /data/data/com.termux/files/home/postgres -l logfile start " >> /data/data/com.termux/files/home/.termux/boot/start_postgres.sh  && \
+echo " " >> /data/data/com.termux/files/home/.termux/boot/start_postgres.sh && \
+
+pg_ctl -D ./postgres -l logfile start  && \
+cd /data/data/com.termux/files/home/install/ && \
+createuser --superuser --pwprompt d3user

@@ -1,0 +1,17 @@
+chmod +x vpn && \
+chmod +x display && \
+chmod +x setup && \
+chmod +x config && \
+chmod +x uninstall && \
+pkg install x11-repo -y && \
+pkg install termux-auth -y && \
+pkg install mc -y && \
+pkg install openssh -y && \
+pkg install android-tools -y && \
+pkg install redis -y && \
+chmod +x /data/data/com.termux/files/home/install/lib  && \
+chmod +x /data/data/com.termux/files/home/install/sql && \
+chmod +x /data/data/com.termux/files/home/install/py && \
+chmod +x /data/data/com.termux/files/home/install/rdp  && \
+chmod +x /data/data/com.termux/files/home/install/ssh  && \
+sh /data/data/com.termux/files/home/install/ssh

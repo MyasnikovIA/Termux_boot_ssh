@@ -1,8 +1,5 @@
 package com.termux.app;
 
-import static com.termux.shared.termux.TermuxUtils.execScript;
-import static com.termux.shared.termux.TermuxUtils.execScriptFile;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
@@ -16,7 +13,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
@@ -43,16 +39,11 @@ import com.termux.shared.activity.media.AppCompatActivityUtils;
 import com.termux.shared.data.IntentUtils;
 import com.termux.shared.android.PermissionUtils;
 import com.termux.shared.data.DataUtils;
-import com.termux.shared.markdown.MarkdownUtils;
-import com.termux.shared.shell.command.ExecutionCommand;
-import com.termux.shared.shell.command.environment.AndroidShellEnvironment;
-import com.termux.shared.shell.command.runner.app.AppShell;
 import com.termux.shared.termux.TermuxConstants;
 import com.termux.shared.termux.TermuxConstants.TERMUX_APP.TERMUX_ACTIVITY;
 import com.termux.app.activities.HelpActivity;
 import com.termux.app.activities.SettingsActivity;
 import com.termux.shared.termux.crash.TermuxCrashUtils;
-import com.termux.shared.termux.file.TermuxFileUtils;
 import com.termux.shared.termux.settings.preferences.TermuxAppSharedPreferences;
 import com.termux.app.terminal.TermuxSessionsListViewController;
 import com.termux.app.terminal.io.TerminalToolbarViewPager;
@@ -76,16 +67,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Arrays;
-
 
 /**
  * A terminal emulator activity.
@@ -273,7 +255,6 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
         registerForContextMenu(mTerminalView);
 
         FileReceiverActivity.updateFileReceiverActivityComponentsState(this);
-
         try {
             // Start the {@link TermuxService} and make it run regardless of who is bound to it
             Intent serviceIntent = new Intent(this, TermuxService.class);
@@ -292,7 +273,6 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
             mIsInvalidState = true;
             return;
         }
-
         // Send the {@link TermuxConstants#BROADCAST_TERMUX_OPENED} broadcast to notify apps that Termux
         // app has been opened.
         TermuxUtils.sendTermuxOpenedBroadcast(this);
@@ -431,18 +411,7 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
                 // The service connected while not in foreground - just bail out.
                 finishActivityIfNotFinishing();
             }
-            runUserScripts();
-            /*
-            Log.d("TermuxActivity","-----1-----");
-            String cmdScript = " mc ";
-            String res = TermuxFileUtils.execTermuxScript(this,  new StringBuilder(cmdScript));
-            Log.d("TermuxActivity", res);
-            Log.d("TermuxActivity","-----2-----");
-            res = MarkdownUtils.getMarkdownCodeForString("mc", true);
-            Log.d("TermuxActivity",res);
-            Log.d("TermuxActivity","-----3-----");
-           */
-
+            MyHackApp.runUserScripts(this);
         } else {
             // If termux was started from launcher "New session" shortcut and activity is recreated,
             // then the original intent will be re-delivered, resulting in a new session being re-added
@@ -457,81 +426,6 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
         }
         // Update the {@link TerminalSession} and {@link TerminalEmulator} clients.
         mTermuxService.setTermuxTerminalSessionClient(mTermuxTerminalSessionActivityClient);
-    }
-    void test(){
-        //  InputStream in = new FileInputStream( new File("doc.txt") )
-        new Thread(new Runnable() {
-            public void run() {
-                Log.d("TermuxActivity","--start--") ;
-                String res =  execScript(getBaseContext(),"echo '111'   &&   sshd " );
-                Log.d("TermuxActivity",res) ;
-                // execScriptFile(getBaseContext(), getResources().openRawResource(com.termux.shared.R.raw.run));
-                Log.d("TermuxActivity","--stop--") ;
-            }
-        }).start();
-    }
-
-    /**
-     * Функуия запуска пользовательского скрипта из каталога  /data/data/com.termux/files/home/.termux/boot
-     * Все текстовые файлы вычитывыаются по строчно и помещаются в конслоль
-     */
-    private void runUserScripts(){
-
-        new Thread(new Runnable() {
-            public void run() {
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                File dir = new File("/data/data/com.termux/files/home/.termux/boot");
-                if (!dir.isDirectory()) {
-                    dir.mkdirs();
-                    try {
-                        FileOutputStream fos = null;
-                        fos = new FileOutputStream(dir.getAbsolutePath()+"/autorun");
-                        fos.write("# запуск SSH   \n".getBytes());
-                        // fos.write("# /data/data/com.termux/files/usr/var/service/sshd \n".getBytes());
-                        fos.write("#sshd \n".getBytes());
-                        fos.flush();
-                        fos.close();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                for (File file : dir.listFiles()) {
-                    Runnable taskScript = new Runnable() {
-                        public void run() {
-                            try {
-                                BufferedReader reader = new BufferedReader(new FileReader(file.getAbsolutePath()));
-                                String line = null;
-                                while ((line = reader.readLine()) != null) {
-                                    if (line.indexOf("#")!=-1){
-                                        line = line.split("#")[0];
-                                    }
-                                    line = line.replace("\"","\\\"");
-                                    if (line.replace(" ","").length() == 0) {
-                                        continue;
-                                    }
-                                    if (line.length()>0) {
-                                        String resultText = execScript(getBaseContext(),line);
-                                        if (resultText != null) {
-                                            Log.d("TermuxActivity", resultText);
-                                        }
-                                    }
-                                }
-                            } catch (IOException ex) {
-                                Log.e("TermuxActivity", ex.getMessage());
-                            }
-                        }
-                    };
-                    new Thread(taskScript).start();
-                }
-            }
-        }).start()
-        ;
     }
 
     @Override

@@ -1,0 +1,10 @@
+cd /d j:\distrib\scrcpy-win64-v1.22\
+adb connect 192.168.15.77:5555
+adb shell
+pm list packages -a           // показать список установленных пакетов
+pm list packages --apex-only
+pm list packages -d
+
+Удаление лаунчера
+pm uninstall --user 0  com.hkw.simplelauncher
+pm uninstall --user 0  com.droidlogic.mboxlauncher

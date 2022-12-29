@@ -411,39 +411,4 @@ public class TermuxFileUtils {
         return markdownString.toString();
     }
 
-
-    public static String execTermuxScript(@NonNull final Context context, StringBuilder statScript ) {
-        Context termuxPackageContext = TermuxUtils.getTermuxPackageContext(context);
-        if (termuxPackageContext == null) return null;
-        // Also ensures that termux files directory is created if it does not already exist
-        String filesDir = termuxPackageContext.getFilesDir().getAbsolutePath();
-        // Run script
-        ExecutionCommand executionCommand = new ExecutionCommand(-1, "/system/bin/sh", null,statScript.toString() + "\n", "/", ExecutionCommand.Runner.APP_SHELL.getName(), true);
-        executionCommand.commandLabel = TermuxConstants.TERMUX_APP_NAME + " Files Stat Command";
-        executionCommand.backgroundCustomLogLevel = Logger.LOG_LEVEL_OFF;
-        AppShell appShell = AppShell.execute(context, executionCommand, null, new TermuxShellEnvironment(), null, true);
-        if (appShell == null || !executionCommand.isSuccessful()) {
-            Logger.logErrorExtended(LOG_TAG, executionCommand.toString());
-            return null;
-        }
-        // Build script output
-        StringBuilder statOutput = new StringBuilder();
-        statOutput.append("$ ").append(statScript.toString());
-        statOutput.append("\n\n").append(executionCommand.resultData.stdout.toString());
-        boolean stderrSet = !executionCommand.resultData.stderr.toString().isEmpty();
-        if (executionCommand.resultData.exitCode != 0 || stderrSet) {
-            Logger.logErrorExtended(LOG_TAG, executionCommand.toString());
-            if (stderrSet)
-                statOutput.append("\n").append(executionCommand.resultData.stderr.toString());
-            statOutput.append("\n").append("exit code: ").append(executionCommand.resultData.exitCode.toString());
-        }
-        // Build markdown output
-        StringBuilder markdownString = new StringBuilder();
-        markdownString.append("## ").append(TermuxConstants.TERMUX_APP_NAME).append(" Files Info\n\n");
-        AndroidUtils.appendPropertyToMarkdown(markdownString,"TERMUX_REQUIRED_FILES_DIR_PATH ($PREFIX)", TermuxConstants.TERMUX_FILES_DIR_PATH);
-        AndroidUtils.appendPropertyToMarkdown(markdownString,"ANDROID_ASSIGNED_FILES_DIR_PATH", filesDir);
-        markdownString.append("\n\n").append(MarkdownUtils.getMarkdownCodeForString(statOutput.toString(), true));
-        markdownString.append("\n##\n");
-        return markdownString.toString();
-    }
 }

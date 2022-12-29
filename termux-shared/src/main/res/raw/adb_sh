@@ -1,0 +1,26 @@
+#!/bin/bash
+adb connect 127.0.0.1:5555 && \
+adb -s 127.0.0.1:5555 shell
+
+
+# adb kill-server
+# adb start-server
+# adb tcpip 5555
+# pkg install android-tools -y
+
+# Изменить разрешение экрана
+# adb -s 10.8.0.5:5555 shell wm size 720x480
+# Сбросить изменения
+# adb -s 10.8.0.5:5555 shell wm size reset
+
+
+# Ввод текста
+# adb -s 127.0.0.1:5555 shell input text "insert%syour%stext%shere"
+
+# кликать на экран
+# adb -s 127.0.0.1:5555 shell input tap 100 120
+
+
+
+# https://androidp1.ru/zapusk-adb-android/
+# apt update > /dev/null 2>&1 && apt --assume-yes install wget > /dev/null 2>&1 && wget https://github.com/MasterDevX/Termux-ADB/raw/master/InstallTools.sh -q && bash InstallTools.sh

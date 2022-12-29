@@ -1,0 +1,25 @@
+
+pkg install openjdk-17 wget nmap -y  && \
+mkdir /data/data/com.termux/files/home/TomCat   && \
+cd /data/data/com.termux/files/home/TomCat   && \
+wget https://archive.apache.org/dist/tomcat/tomcat-10/v10.0.23/bin/apache-tomcat-10.0.23.tar.gz  && \
+tar -xvf apache-tomcat-10.0.23.tar.gz   && \
+echo "# Запуск TomCat сервера" >> /data/data/com.termux/files/home/.termux/boot/tomcat_start_server.sh   && \
+echo "/data/data/com.termux/files/home/TomCat/apache-tomcat-10.0.23/bin/catalina.sh start  &&  nmap localhost " >> /data/data/com.termux/files/home/.termux/boot/tomcat_start_server.sh && \
+chmod +x /data/data/com.termux/files/home/.termux/boot/tomcat_start_server.sh
+
+# --- ====================== ---
+# --- Установка из интернета ---
+# cd /data/data/com.termux/files/home/distrib/tomcat/   && \
+# wget https://archive.apache.org/dist/tomcat/tomcat-10/v10.0.23/bin/apache-tomcat-10.0.23.tar.gz  && \
+# tar -xvf apache-tomcat-10.0.23.tar.gz
+# export CATALINA_HOME=/data/data/com.termux/files/home/distrib/tomcat/apache-tomcat-10.0.23
+# # не актуально --- export CATALINA_HOME=$HOME/apache-tomcat-10.0.23
+# --- ====================== ---
+
+# Start
+# $CATALINA_HOME/bin/catalina.sh start  &&  nmap localhost
+
+# Stop
+# $CATALINA_HOME/bin/catalina.sh stop  &&  nmap localhost
+# http://192.168.15.77:8080/

@@ -1,0 +1,25 @@
+#=====================================================================
+#https://www.youtube.com/watch?v=GwmJ28o3GVk&ab_channel=TechnicalBot
+#----------------------------------------------------------------------
+termux-change-repo  &&\
+apt list --upgradable &&\
+pkg install root-repo -y &&\
+pkg install x11-repo -y &&\
+pkg install xfce4 -y &&\
+pkg install xfce4-goodies -y &&\
+pkg install tigervnc -y &&\
+pkg install xrdp -y  &&\
+cat /data/data/com.termux/files/home/install/xrdp.ini >> /data/data/com.termux/files/usr/etc/xrdp/xrdp.ini &&\
+rm /data/data/com.termux/files/home/install/xrdp.ini  &&\
+vncserver -xstartup /data/data/com.termux/files/usr/bin/startxfce4 -listen tcp  :1
+
+#cd /data/data/com.termux/files/usr/etc/xrdp/xrdp.ini
+#port=-1  заменить port=5901
+#cd /data/data/com.termux/files/home
+#vncserver -xstartup ../usr/bin/startxfce4 -listen tcp  :1
+#
+#Win VNC viewer
+#   192.168.0.111:5901 #
+#vncserver -xstartup -listen tcp  :3389
+#vncserver -kill :1
+#vncserver -list

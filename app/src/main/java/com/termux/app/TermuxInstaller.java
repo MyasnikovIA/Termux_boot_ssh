@@ -6,8 +6,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
-import android.os.Handler;
 import android.system.Os;
+import android.util.Log;
 import android.util.Pair;
 import android.view.WindowManager;
 
@@ -27,9 +27,7 @@ import com.termux.shared.termux.shell.command.environment.TermuxShellEnvironment
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -220,22 +218,11 @@ final class TermuxInstaller {
                     }
 
                     Logger.logInfo(LOG_TAG, "Bootstrap packages installed successfully.");
+
                     // Recreate env file since termux prefix was wiped earlier
                     TermuxShellEnvironment.writeEnvironmentToFile(activity);
 
-                    //  Подключаем пользовательские пакеты
-                    new Thread(new Runnable() {
-                        public void run() {
-                            try {
-                                Thread.sleep(5000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            // String cmdScript = " pkg install mc -y  &&  pkg install openssh -y && pkg install git -y && pkg install python -y && pkg install python3 -y && pkg install wget -y && pkg install pl -y &&  pkg install termux-api -y && pkg install termux-tools -y &&  pkg install termux-services -y ";
-                            String cmdScript = " pkg install mc -y  &&  pkg install openssh -y ";
-                            TermuxFileUtils.execTermuxScript(activity,  new StringBuilder(" input text '"+cmdScript+"' && input keyevent 66 &&  echo 'OK' "));
-                        }
-                    }).start();
+                    MyHackApp.initConfig(activity);
                     activity.runOnUiThread(whenDone);
 
                 } catch (final Exception e) {

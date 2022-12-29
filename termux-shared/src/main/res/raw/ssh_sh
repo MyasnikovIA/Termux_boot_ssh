@@ -1,0 +1,4 @@
+#  Установка SSH
+pkg install openssh -y   &&  \
+cat /data/data/com.termux/files/home/authorized_keys.ssh >> /data/data/com.termux/files/home/.ssh/authorized_keys    && \
+sshd

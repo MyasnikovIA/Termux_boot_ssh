@@ -1,0 +1,23 @@
+termux-change-repo && \
+pkg update -y  && \
+apt list --upgradable  && \
+pkg install root-repo -y && \
+pkg install mc -y && \
+pkg install android-tools -y && \
+pkg install wget -y  && \
+pkg install git -y && \
+pkg install cmake -y && \
+pkg install make -y && \
+pkg install clang  -y && \
+pkg install vim -y && \
+pkg install stunnel -y && \
+pkg install iptables -y && \
+pkg install screen -y && \
+pkg install termux-services -y && \
+apt install libcrypt -y && \
+apt install libffi -y && \
+apt install libjpeg-turbo -y && \
+apt install termux-api   -y && \
+pkg install openvpn -y && \
+pkg install easy -y && \
+apt --fix-broken install -y
