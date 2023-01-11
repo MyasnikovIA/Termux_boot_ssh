@@ -1,0 +1,31 @@
+# порт сервера, можно свой
+Listen 8080
+
+# раскоментируйте, чтобы можно было использовать Rewrite Engine
+LoadModule rewrite_module libexec/apache2/mod_rewrite.so
+
+# допишите, чтобы работал php
+LoadModule php7_module libexec/apache2/libphp7.so
+AddHandler application/x-httpd-php .php
+PhpIniDir "~/storage/shared/cfg"
+
+# имя сервера, оставьте лучше таким, 8080 - значение Listen
+SeverName localhost:8080
+
+# корень сайта
+DocumentRoot "~/storage/shared/www"
+
+# параметры для корня
+<Directory "~/storage/shared/www">
+    # измените только этот параметр внутри тега
+   AllowOverride All
+</Directory>
+
+# файл index
+DirectoryIndex index.php
+
+# где хранить лог ошибок Apache
+ErrorLog "~/storage/shared/log/apache-error.log"
+
+# где хранить лог запросов к серверу
+CustomLog "~/storage/shared/log/apache-access.log" common

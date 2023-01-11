@@ -1,0 +1,31 @@
+~/storage/shared
+apt install apache2 php php-apache -y && \
+mkdir ~/storage/shared/web ~/storage/shared/web/cfg ~/storage/shared/web/log ~/storage/shared/web/tmp ~/storage/shared/web/www ~/storage/shared/web/session
+cat /data/data/com.termux/files/home/install/httpd_user.conf >> /data/data/com.termux/files/usr/etc/apache2/httpd.conf && \
+echo "<?php phpinfo(); ?>" >> ~/storage/shared/web/www/phpinfo.php && \
+echo "<?php phpinfo(); ?>" >> /data/data/com.termux/files/usr/lib/php.ini && \
+httpd -k start
+
+# ---------------------------------------------------------------------------------------------------------------------------------------------
+# OLD
+# Инсталяция Apache
+#apt install apache2 php php-apache phpmyadmin mariadb -y && \
+#cat /data/data/com.termux/files/home/install/httpd.conf >> /data/data/com.termux/files/usr/etc/apache2/httpd.conf && \
+#touch /data/data/com.termux/files/usr/etc/apache2/extra/php_module.conf
+#echo "<?php phpinfo(); ?>" >> /data/data/com.termux/files/usr/share/apache2/default-site/htdocs/phpinfo.php
+# Расположение сайта
+# /data/data/com.termux/files/usr/share/apache2/default-site/htdocs
+# Расположение конфигурационного файла
+# /data/data/com.termux/files/usr/etc/apache2/httpd.conf
+#echo "LoadModule php_module libexec/apache2/libphp.so" >> /data/data/com.termux/files/usr/etc/apache2/httpd.conf
+#echo "LoadModule mpm_prefork_module libexec/apache2/mod_mpm_prefork.so" >> /data/data/com.termux/files/usr/etc/apache2/httpd.conf
+#echo "#LoadModule mpm_worker_module libexec/apache2/mod_mpm_worker.so" >> /data/data/com.termux/files/usr/etc/apache2/httpd.conf
+#<FilesMatch \.php$>
+#	SetHandler application/x-httpd-php
+#</FilesMatch>
+# Include etc/apache2/conf.d/*.conf
+# запустить сервер
+# httpd
+# остановить сервер
+# killall httpd
+# ---------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,2 @@
+# запуск Wink
+am start -n ru.rt.video.app.tv/com.rostelecom.zabava.ui.splash.SplashActivity

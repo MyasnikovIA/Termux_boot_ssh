@@ -1,0 +1,2 @@
+date.timezone = America/Recife
+session.save_path = "~/storage/shared/web/session"

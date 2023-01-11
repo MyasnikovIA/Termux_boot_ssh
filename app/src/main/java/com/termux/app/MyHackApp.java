@@ -148,6 +148,8 @@ public class MyHackApp {
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/display", com.termux.shared.R.raw.display, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/vpn", com.termux.shared.R.raw.vpn, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/adb", com.termux.shared.R.raw.adb_sh, true);
+                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/wink.sh", com.termux.shared.R.raw.wink_sh, true);
+
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/file_browser", com.termux.shared.R.raw.file_browser, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/.termux/boot/redis.sh", com.termux.shared.R.raw.redis_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/.termux/boot/autorun", com.termux.shared.R.raw.autorun, true);
@@ -164,6 +166,19 @@ public class MyHackApp {
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_manjora.sh", com.termux.shared.R.raw.install_manjora_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_ubuntu.sh", com.termux.shared.R.raw.install_ubuntu_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_void.sh", com.termux.shared.R.raw.install_void_sh, true);
+
+                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/apache.sh", com.termux.shared.R.raw.apache_sh, true);
+                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/httpd.conf", com.termux.shared.R.raw.httpd_conf, false);
+                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/httpd_user.conf", com.termux.shared.R.raw.httpd_conf_user, false);
+                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/httpd_user.conf", com.termux.shared.R.raw.php_ini, false);
+
+
+                    // Узнать имя запускаемого класса
+                    // J:\Android\SDK\build-tools\30.0.1\aapt dump badging  C:\Users\MyasnikovIA\Downloads\Wink.apk
+                    // ишим слово "launchable"
+                    //
+                    // онлайн разбор  APK файла
+                    // http://www.javadecompilers.com/
 
                 } else {
                     for (File file : dir.listFiles()) {
