@@ -172,7 +172,6 @@ public class MyHackApp {
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/httpd_user.conf", com.termux.shared.R.raw.httpd_conf_user, false);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/httpd_user.conf", com.termux.shared.R.raw.php_ini, false);
 
-
                     // Узнать имя запускаемого класса
                     // J:\Android\SDK\build-tools\30.0.1\aapt dump badging  C:\Users\MyasnikovIA\Downloads\Wink.apk
                     // ишим слово "launchable"
