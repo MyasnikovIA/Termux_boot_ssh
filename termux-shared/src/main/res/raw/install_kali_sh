@@ -1,1 +1,7 @@
-echo "deb https://termux.mentality.rip/termux-main stable main" > $PREFIX/etc/apt/sources.list && cat $PREFIX/etc/apt/sources.list && pkg update -y && pkg install wget curl proot tar -y && wget https://raw.githubusercontent.com/AndronixApp/AndronixOrigin/master/Installer/Kali/kali-lxde.sh -O kali-lxde.sh && chmod +x kali-lxde.sh && bash kali-lxde.sh
+echo "deb https://termux.mentality.rip/termux-main stable main" > $PREFIX/etc/apt/sources.list && \
+cat $PREFIX/etc/apt/sources.list && \
+pkg update -y && \
+pkg install -y wget curl proot tar && \
+wget https://raw.githubusercontent.com/AndronixApp/AndronixOrigin/master/Installer/Kali/kali-lxde.sh -O kali-lxde.sh && \
+chmod +x kali-lxde.sh && \
+bash kali-lxde.sh

@@ -1,0 +1,36 @@
+pkg install -y wget && \
+wget http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/x86_64/alpine-standard-3.10.1-x86_64.iso && \
+pkg install -y x11-repo unstable-repo  && \
+pkg install -y qemu-utils qemu-system-x86_64  && \
+qemu-img create -f qcow2 virt-alpine.img 5g  && \
+qemu-system-x86_64 -hda virt-alpine.img -cdrom alpine-standard-3.10.1-x86_64.iso -boot d -m 512 -nographic   && \
+setup-alpine
+
+# ==============================================================================
+# https://stageguard.top/2019/08/15/run-docker-on-qemu-alpine/#%C2%B7-%E5%AE%89%E8%A3%85%EF%BC%9A
+# ==============================================================================
+# pkg install -y wget && \
+# wget http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/x86_64/alpine-virt-3.10.1-x86_64.iso && \
+# pkg install -y x11-repo unstable-repo  && \
+# pkg install -y qemu-utils qemu-system-x86_64  && \
+# qemu-img create -f qcow2 virt-alpine.img 5g  && \
+# qemu-system-x86_64 -hda virt-alpine.img -cdrom alpine-virt-3.10.1-x86_64.iso -boot d -m 512 -nographic   && \
+# setup-alpine
+# ==============================================================================
+
+
+
+
+# ==============================================================================
+# pkg install -y git && \
+# pkg install -y ncurses-utils  && \
+# cd $HOME && \
+#    git clone -b main https://github.com/illvart/termux-alpine.git && \
+#    cd termux-alpine && \
+#    chmod +x setup-termux-alpine && \
+# ./setup-termux-alpine --setup-user  && \
+# termux-alpine
+# termux-alpine echo "Hello World"
+# Uninstall:
+# cd ${HOME}/termux-alpine && ./setup-termux-alpine --uninstall
+# ==============================================================================

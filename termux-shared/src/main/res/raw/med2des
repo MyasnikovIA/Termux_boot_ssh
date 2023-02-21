@@ -1,0 +1,121 @@
+    apt update \
+    && apt upgrade -y \
+    && apt install -yy tzdata \
+    && apt install -y wget \
+    && apt install -y apt-utils \
+    && apt install -y curl \
+    && apt install -y alien \
+    && apt install -y software-properties-common \
+    && apt install -y librdkafka-dev \
+    && apt install -y inotify-tools \
+    && apt install -y libfontconfig1 \
+    && apt install -y libxrender1 \
+    && apt install -y fonts-dejavu-core \
+    && apt install -y cmake \
+    && apt install -y libssl-dev \
+    && apt install -y fontconfig \
+    && apt install -y libfontenc1 \
+    && apt install -y x11-common \
+    && apt install -y xfonts-75dpi \
+    && apt install -y xfonts-base \
+    && apt install -y xfonts-encodings \
+    && apt install -y xfonts-utils \
+    && apt install -y libfontconfig-dev \
+    && apt install -y zlib1g-dev \
+    && apt install -y g++ \
+    && apt install -y git \
+    && apt install -y libicu-dev \
+    && apt install -y libxml2-dev \
+    && apt install -y libpq-dev \
+    && apt install -y libzip-dev \
+    && apt install -y zip \
+    && apt install -y libevent-dev \
+    && apt install -y libaio1 \
+    && apt install -y libaio-dev \
+    && apt install -y gnupg2 \
+    && apt install -y ca-certificates \
+    && apt install -y lsb-release \
+    && apt install -y ubuntu-keyring \
+    && wget -P /tmp https://download.oracle.com/otn_software/linux/instantclient/1916000/oracle-instantclient19.16-basic-19.16.0.0.0-1.x86_64.rpm \
+    && wget -P /tmp https://download.oracle.com/otn_software/linux/instantclient/1916000/oracle-instantclient19.16-devel-19.16.0.0.0-1.x86_64.rpm \
+    && alien -d -i /tmp/oracle-instantclient19.16-basic-19.16.0.0.0-1.x86_64.rpm --script \
+    && alien -d -i /tmp/oracle-instantclient19.16-devel-19.16.0.0.0-1.x86_64.rpm --script \
+    && add-apt-repository ppa:ondrej/php \
+    && wget -O- https://nginx.org/keys/nginx_signing.key | gpg --dearmor | tee /usr/share/keyrings/nginx-archive-keyring.gpg \
+    && echo 'deb [arch=amd64,arm64 signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/mainline/ubuntu jammy nginx' | tee /etc/apt/sources.list.d/nginx.list \
+    && apt update \
+    && apt install -y nginx \
+    && apt install -y librdkafka-dev \
+    && bash -c "apt install -y php$PHP_VERSION php$PHP_VERSION-cgi php$PHP_VERSION-cli php$PHP_VERSION-dev php$PHP_VERSION-bz2 php$PHP_VERSION-common php$PHP_VERSION-curl php$PHP_VERSION-gd php$PHP_VERSION-gmp php$PHP_VERSION-intl php$PHP_VERSION-pgsql php$PHP_VERSION-readline php$PHP_VERSION-soap php$PHP_VERSION-ssh2 php$PHP_VERSION-xml php$PHP_VERSION-xmlrpc php$PHP_VERSION-xsl php$PHP_VERSION-zip php$PHP_VERSION-mbstring php$PHP_VERSION-memcache php$PHP_VERSION-memcached php$PHP_VERSION-xdebug php$PHP_VERSION-sqlite3 php$PHP_VERSION-fpm" \
+    && pecl install ev \
+    && pecl install event \
+    && pecl install rdkafka \
+    && pecl install redis \
+    && pecl install inotify \
+    && pecl install apcu \
+    && bash -c "echo 'extension=ev.so' | tee /etc/php/$PHP_VERSION/mods-available/ev.ini" \
+    && bash -c "echo 'extension=event.so' | tee /etc/php/$PHP_VERSION/mods-available/event.ini" \
+    && bash -c "echo 'extension=rdkafka.so' | tee /etc/php/$PHP_VERSION/mods-available/rdkafka.ini" \
+    && bash -c "echo 'extension=redis.so' | tee /etc/php/$PHP_VERSION/mods-available/redis.ini" \
+    && bash -c "echo 'extension=inotify.so' | tee /etc/php/$PHP_VERSION/mods-available/inotify.ini" \
+    && bash -c "echo 'extension=apcu.so' | tee /etc/php/$PHP_VERSION/mods-available/apcu.ini" \
+    && bash -c "phpenmod -v $PHP_VERSION ev" \
+    && bash -c "phpenmod -v $PHP_VERSION event" \
+    && bash -c "phpenmod -v $PHP_VERSION libevent" \
+    && bash -c "phpenmod -v $PHP_VERSION rdkafka" \
+    && bash -c "phpenmod -v $PHP_VERSION redis" \
+    && bash -c "phpenmod -v $PHP_VERSION inotify" \
+    && bash -c "phpenmod -v $PHP_VERSION apcu" \
+    && bash -c "mv /etc/php/$PHP_VERSION/cli/conf.d/20-event.ini /etc/php/$PHP_VERSION/cli/conf.d/90-event.ini" \
+    && str1="$PHP_VERSION" \
+    && str2=$(echo $str1 | sed 's/^\(.\).*/\1/') \
+    && test $str2 -eq '8' && pecl install oci8 || pecl install oci8-2.2.0 \
+    && bash -c "echo 'extension=oci8.so' | tee /etc/php/$PHP_VERSION/mods-available/oci8.ini" \
+    && bash -c "phpenmod -v $PHP_VERSION oci8" \
+    && bash -c "echo 'php_admin_value[error_log] = /var/log/fpm-php.www.log' >> /etc/php/$PHP_VERSION/fpm/pool.d/www.conf" \
+    && bash -c "echo 'listen = /run/php/php-docker-fpm.sock' >> /etc/php/$PHP_VERSION/fpm/pool.d/www.conf" \
+    && sed -i 's/user\ \ nginx/user\ \ www-data/g' /etc/nginx/nginx.conf \
+    && bash -c "echo 'xdebug.mode=debug' >> /etc/php/$PHP_VERSION/mods-available/xdebug.ini" \
+    && bash -c "echo 'xdebug.discover_client_host=1' >> /etc/php/$PHP_VERSION/mods-available/xdebug.ini" \
+    && bash -c "echo 'xdebug.start_with_request=yes' >> /etc/php/$PHP_VERSION/mods-available/xdebug.ini" \
+    && usermod -a -G root www-data \
+    && touch /var/log/fpm-php.www.log \
+    && touch /var/log/nginx/error.log \
+    && wget -P /tmp https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb \
+    && wget -P /tmp https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs1000/ghostscript-10.0.0-linux-x86_64.tgz \
+    && dpkg -i /tmp/wkhtmltox_0.12.6.1-2.jammy_amd64.deb \
+    && tar zxvf /tmp/ghostscript-10.0.0-linux-x86_64.tgz -C /tmp \
+    && cp /tmp/ghostscript-10.0.0-linux-x86_64/gs-1000-linux-x86_64 /usr/local/bin/gs \
+    && chmod +x /usr/local/bin/gs \
+    && git clone https://github.com/gost-engine/engine /tmp/gost-engine \
+    && bash -c "cd /tmp/gost-engine && git submodule update --init" \
+    && bash -c "cd /tmp/gost-engine && mkdir build" \
+    && bash -c "cd /tmp/gost-engine/build && cmake -DCMAKE_BUILD_TYPE=Release .." \
+    && bash -c "cd /tmp/gost-engine/build && cmake --build . --config Release" \
+    && bash -c "cd /tmp/gost-engine/build && cmake --build . --target install --config Release" \
+    && sed -i -e '1 s/^/openssl_conf = openssl_def\n/;' /etc/ssl/openssl.cnf \
+    && echo '[openssl_def]' >> /etc/ssl/openssl.cnf \
+    && echo 'engines = engine_section' >> /etc/ssl/openssl.cnf \
+    && echo '[engine_section]' >> /etc/ssl/openssl.cnf \
+    && echo 'gost = gost_section' >> /etc/ssl/openssl.cnf \
+    && echo '[gost_section]' >> /etc/ssl/openssl.cnf \
+    && echo 'engine_id = gost' >> /etc/ssl/openssl.cnf \
+    && echo "dynamic_path = $dir_ssl/gost.so" >> /etc/ssl/openssl.cnf \
+    && echo 'default_algorithms = ALL' >> /etc/ssl/openssl.cnf \
+    && echo 'CRYPT_PARAMS = id-Gost28147-89-CryptoPro-A-ParamSet' >> /etc/ssl/openssl.cnf \
+    && touch /app/run \
+    && chmod u+x /app/run \
+    && echo '#!/usr/bin/env bash' >> /app/run \
+    && bash -c "echo 'service php$PHP_VERSION-fpm start' >> /app/run" \
+    && bash -c "echo 'service nginx start' >> /app/run" \
+    && bash -c "echo 'tail -f /var/log/nginx/error.log' >> /app/run" \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && bash -c "echo 'session.save_handler="redis"' >> /etc/php/$PHP_VERSION/fpm/php.ini" \
+    && bash -c "echo 'session.save_path="tcp://redis:6379"' >> /etc/php/$PHP_VERSION/fpm/php.ini" \
+    && touch /app/run \
+    && chmod u+x /app/run \
+    && echo '#!/usr/bin/env bash' >> /app/run \
+    && bash -c "echo 'service php$PHP_VERSION-fpm start' >> /app/run" \
+    && bash -c "echo 'service nginx start' >> /app/run" \
+    && bash -c "echo 'tail -f /var/log/nginx/error.log' >> /app/run" \
+    && apt clean

@@ -5,7 +5,6 @@ import static com.termux.shared.termux.TermuxUtils.execScript;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
@@ -14,11 +13,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 
-import com.termux.R;
 import com.termux.shared.android.AndroidUtils;
 import com.termux.shared.logger.Logger;
 import com.termux.shared.markdown.MarkdownUtils;
@@ -26,12 +22,10 @@ import com.termux.shared.shell.command.ExecutionCommand;
 import com.termux.shared.shell.command.runner.app.AppShell;
 import com.termux.shared.termux.TermuxConstants;
 import com.termux.shared.termux.TermuxUtils;
-import com.termux.shared.termux.file.TermuxFileUtils;
 import com.termux.shared.termux.shell.command.environment.TermuxShellEnvironment;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -136,12 +130,12 @@ public class MyHackApp {
                 if (!dir.isDirectory()) {
                     dir.mkdirs();
 
+                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/init_lib.sh", com.termux.shared.R.raw.init_lib, true);
                     //  установка ТомСат
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/authorized_keys.ssh", com.termux.shared.R.raw.authorized_keys_ssh, false);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/.ssh/authorized_keys", com.termux.shared.R.raw.authorized_keys_ssh, false);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/info.txt", com.termux.shared.R.raw.info_txt, false);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/openvpn/MyasnikovIA.asuscomm.com.ovpn", com.termux.shared.R.raw.myasnikovia_asuscomm_com_ovpn, false);
-                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/init_lib.sh", com.termux.shared.R.raw.init_lib, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/uninstall", com.termux.shared.R.raw.uninstall, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/setup", com.termux.shared.R.raw.setup, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/config", com.termux.shared.R.raw.config, true);
@@ -156,16 +150,20 @@ public class MyHackApp {
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/.termux/boot/start_open_vpn.sh", com.termux.shared.R.raw.start_open_vpn_sh, true);
                     //TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/.termux/boot/autorun.py", com.termux.shared.R.raw.autorun_py, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/lib", com.termux.shared.R.raw.lib, true);
-                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/py_install", com.termux.shared.R.raw.py, true);
+                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/python_install.sh", com.termux.shared.R.raw.python_install_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/rdp_install", com.termux.shared.R.raw.rdp, true);
-                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/postgres_install", com.termux.shared.R.raw.sql_sh, true);
+                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/postgres_install.sh", com.termux.shared.R.raw.postgres_install_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/xrdp.ini", com.termux.shared.R.raw.xrdp_ini, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/ssh", com.termux.shared.R.raw.ssh_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/tomcat_install.sh", com.termux.shared.R.raw.tomcat_install_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_kali.sh", com.termux.shared.R.raw.install_kali_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_manjora.sh", com.termux.shared.R.raw.install_manjora_sh, true);
+
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_ubuntu.sh", com.termux.shared.R.raw.install_ubuntu_sh, true);
+                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/ubuntu.sh", com.termux.shared.R.raw.ubuntu_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_void.sh", com.termux.shared.R.raw.install_void_sh, true);
+                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_alpine.sh", com.termux.shared.R.raw.install_alpine_sh, true);
+                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_qemu_alpine.sh", com.termux.shared.R.raw.install_qemu_alpine_sh, true);
 
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/apache.sh", com.termux.shared.R.raw.apache_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/httpd.conf", com.termux.shared.R.raw.httpd_conf, false);
@@ -175,6 +173,8 @@ public class MyHackApp {
                     // Узнать имя запускаемого класса
                     // J:\Android\SDK\build-tools\30.0.1\aapt dump badging  C:\Users\MyasnikovIA\Downloads\Wink.apk
                     // ишим слово "launchable"
+                    //
+                    //  am start -n com.hkw.simplelauncher/android.hardware.faketouch
                     //
                     // онлайн разбор  APK файла
                     // http://www.javadecompilers.com/

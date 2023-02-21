@@ -10,6 +10,7 @@ pkg install openssh -y && \
 pkg install android-tools -y && \
 pkg install redis -y && \
 pkg install docker -y && \
+pkg install neofetch -y && \
 pkg install wget -y && \
 apt install samba -y && \
 # pkg install -y evince serd strace util-linux  && \
@@ -18,4 +19,5 @@ chmod +x /data/data/com.termux/files/home/install/sql && \
 chmod +x /data/data/com.termux/files/home/install/py && \
 chmod +x /data/data/com.termux/files/home/install/rdp  && \
 chmod +x /data/data/com.termux/files/home/install/ssh  && \
-sh /data/data/com.termux/files/home/install/ssh
+sh /data/data/com.termux/files/home/install/ssh && \
+neofetch

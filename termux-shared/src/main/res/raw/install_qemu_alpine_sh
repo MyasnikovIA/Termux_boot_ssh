@@ -1,0 +1,38 @@
+pkg install wget qemu-system-x86-64-headless qemu-utils -y  && \
+cd $HOME && \
+mkdir alpine-linux && \
+cd alpine-linux && \
+wget https://dl-cdn.alpinelinux.org/alpine/v3.14/releases/x86_64/alpine-virt-3.14.0-x86_64.iso && \
+qemu-img create -f qcow2 alpine.qcow2 15G && \
+qemu-system-x86_64 -smp 2 -m 2048 \
+  -drive file=alpine.qcow2,if=virtio \
+  -netdev user,id=n1,hostfwd=tcp::2222-:22 \
+  -device virtio-net,netdev=n1 \
+  -cdrom alpine-virt-3.14.0-x86_64.iso -boot d \
+  -nographic && \
+setup-alpine
+
+
+# https://giterhub.com/repository/eapolinariov/alpine-linux-on-termux
+# Start VM
+# qemu-system-x86_64 -smp 2 -m 2048 \
+#   -drive file=alpine.qcow2,if=virtio \
+#   -netdev user,id=n1,hostfwd=tcp::2222-:22 \
+#   -device virtio-net,netdev=n1 \
+#   -nographic
+
+
+
+
+#
+#   pkg install wget qemu-utils qemu-common qemu-system-x86_64-headless -y && \
+#   mkdir alpine && cd $_ && \
+#   #   wget http://dl-cdn.alpinelinux.org/alpine/v3.12/releases/x86_64/alpine-virt-3.12.3-x86_64.iso && \
+#   # Create disk (note it won't actually take 4GB of space, more like 500MB)
+#   # qemu-img create -f qcow2 alpine.img 4G && \
+#   qemu-img create -f qcow2 alpine.img 15G && \
+#   qemu-system-x86_64 -machine q35 -m 1024 -smp cpus=2 -cpu qemu64 \
+#     -drive if=pflash,format=raw,read-only,file=$PREFIX/share/qemu/edk2-x86_64-code.fd \
+#     -netdev user,id=n1,hostfwd=tcp::2222-:22 -device virtio-net,netdev=n1 \
+#     -cdrom alpine-virt-3.12.3-x86_64.iso \
+#     -nographic alpine.img
