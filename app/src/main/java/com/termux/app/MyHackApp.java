@@ -179,6 +179,13 @@ public class MyHackApp {
                     // онлайн разбор  APK файла
                     // http://www.javadecompilers.com/
 
+                    // -----------------------------------
+                    //   Имя пользователя
+                    // ~$ whoami
+                    //
+                    // ssh -p 8022 u0_a207@192.168.1.128
+                    // -----------------------------------
+
                 } else {
                     for (File file : dir.listFiles()) {
 
