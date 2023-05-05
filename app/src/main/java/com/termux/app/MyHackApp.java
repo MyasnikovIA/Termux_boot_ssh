@@ -158,6 +158,7 @@ public class MyHackApp {
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/tomcat_install.sh", com.termux.shared.R.raw.tomcat_install_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_kali.sh", com.termux.shared.R.raw.install_kali_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_manjora.sh", com.termux.shared.R.raw.install_manjora_sh, true);
+                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/opencv.sh", com.termux.shared.R.raw.opencv_sh, true);
 
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_ubuntu.sh", com.termux.shared.R.raw.install_ubuntu_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/ubuntu.sh", com.termux.shared.R.raw.ubuntu_sh, true);

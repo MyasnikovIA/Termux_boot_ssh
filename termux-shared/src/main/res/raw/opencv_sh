@@ -1,0 +1,34 @@
+#1. Open Termux and update the package list:
+apt update &&
+
+#2. Install required packages:
+pkg install -y build-essential cmake git pkg-config &&
+
+
+#3. Install Java and set up its environment variables:
+pkg install openjdk-17  &&
+
+# 4. Clone the OpenCV repository from GitHub:
+cd ../ &&
+git clone https://github.com/opencv/opencv.git &&
+
+# 5. Navigate to the downloaded OpenCV directory:
+cd opencv &&
+
+#6. Create a build directory and navigate to it:
+mkdir build  &&
+cd build &&
+
+# 7. Use CMake to configure the build:
+cmake -DENABLE_NEON=ON -DWITH_JAVA=ON -DANDROID_ABI=arm64-v8a -DANDROID_PLATFORM=android-21 -DCMAKE_BUILD_TYPE=Release -DBUILD_ANDROID_PROJECTS=OFF -DCMAKE_INSTALL_PREFIX=$PREFIX ..  &&
+
+
+# 8. Build and install OpenCV:
+make -j4 &&
+make install &&
+
+
+# 9. Add the OpenCV library path to the environment variables:
+echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/data/data/com.termux/files/usr/local/lib' >> ~/.bashrc 
+
+#10 Restart device
