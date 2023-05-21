@@ -1,7 +1,24 @@
+Установка пароля для для входа через SSH:
+$passwd
+Запуск SSH:
+$sshd
+
+Подключение 
+$termux-setup-storage
+
+Установка JAVA:
+$ apt update
+$ apt upgrade
+$ apt install wget
+$ wget https://archive.org/download/openjdk-9-jre-headless_9.2017.8.20-1_x86_64/openjdk-9-jdk-headless_9.2017.8.20-1_arm.deb
+$ apt-get install -y ./openjdk-9-jdk-headless_9.2017.8.20-1_arm.deb
+$ apt-get install -y ./openjdk-9-jre-headless_9.2017.8.20-1_arm.deb
+$ apt install ecj
+$ apt install dx
+
 
 -----
 Установка Pytnon
-
 
 pip без SSH
 python -m pip install -U --index-url=http://pypi.python.org/simple/ --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org <packetName>
