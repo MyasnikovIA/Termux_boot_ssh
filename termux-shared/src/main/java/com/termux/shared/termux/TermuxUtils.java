@@ -42,21 +42,13 @@ import java.util.regex.Pattern;
 
 public class TermuxUtils {
 
-    /**
-     * The modes used by {@link #getAppInfoMarkdownString(Context, AppInfoMode, String)}.
-     */
+    /** The modes used by {@link #getAppInfoMarkdownString(Context, AppInfoMode, String)}. */
     public enum AppInfoMode {
-        /**
-         * Get info for Termux app only.
-         */
+        /** Get info for Termux app only. */
         TERMUX_PACKAGE,
-        /**
-         * Get info for Termux app and plugin app if context is of plugin app.
-         */
+        /** Get info for Termux app and plugin app if context is of plugin app. */
         TERMUX_AND_PLUGIN_PACKAGE,
-        /**
-         * Get info for Termux app and its plugins listed in {@link TermuxConstants#TERMUX_PLUGIN_APP_PACKAGE_NAMES_LIST}.
-         */
+        /** Get info for Termux app and its plugins listed in {@link TermuxConstants#TERMUX_PLUGIN_APP_PACKAGE_NAMES_LIST}. */
         TERMUX_AND_PLUGIN_PACKAGES,
         /* Get info for all the Termux app plugins listed in {@link TermuxConstants#TERMUX_PLUGIN_APP_PACKAGE_NAMES_LIST}. */
         TERMUX_PLUGIN_PACKAGES,
@@ -148,9 +140,7 @@ public class TermuxUtils {
         return PackageUtils.getContextForPackage(context, TermuxConstants.TERMUX_WIDGET_PACKAGE_NAME);
     }
 
-    /**
-     * Wrapper for {@link PackageUtils#getContextForPackageOrExitApp(Context, String, boolean, String)}.
-     */
+    /** Wrapper for {@link PackageUtils#getContextForPackageOrExitApp(Context, String, boolean, String)}. */
     public static Context getContextForPackageOrExitApp(@NonNull Context context, String packageName,
                                                         final boolean exitAppOnError) {
         return PackageUtils.getContextForPackageOrExitApp(context, packageName, exitAppOnError, TermuxConstants.TERMUX_GITHUB_REPO_URL);
@@ -159,7 +149,7 @@ public class TermuxUtils {
     /**
      * Check if Termux app is installed and enabled. This can be used by external apps that don't
      * share `sharedUserId` with the Termux app.
-     * <p>
+     *
      * If your third-party app is targeting sdk `30` (android `11`), then it needs to add `com.termux`
      * package to the `queries` element or request `QUERY_ALL_PACKAGES` permission in its
      * `AndroidManifest.xml`. Otherwise it will get `PackageSetting{...... com.termux/......} BLOCKED`
@@ -167,12 +157,12 @@ public class TermuxUtils {
      * Check [package-visibility](https://developer.android.com/training/basics/intents/package-visibility#package-name),
      * `QUERY_ALL_PACKAGES` [googleplay policy](https://support.google.com/googleplay/android-developer/answer/10158779
      * and this [article](https://medium.com/androiddevelopers/working-with-package-visibility-dc252829de2d) for more info.
-     * <p>
+     *
      * {@code
      * <manifest
-     * <queries>
-     * <package android:name="com.termux" />
-     * </queries>
+     *     <queries>
+     *         <package android:name="com.termux" />
+     *    </queries>
      * </manifest>
      * }
      *
@@ -199,7 +189,7 @@ public class TermuxUtils {
     /**
      * Check if Termux app is installed and accessible. This can only be used by apps that share
      * `sharedUserId` with the Termux app.
-     * <p>
+     *
      * This is done by checking if first checking if app is installed and enabled and then if
      * {@code currentPackageContext} can be used to get the {@link Context} of the app with
      * {@link TermuxConstants#TERMUX_PACKAGE_NAME} and then if
@@ -236,15 +226,16 @@ public class TermuxUtils {
     }
 
 
+
     /**
      * Get a field value from the {@link TERMUX_APP#BUILD_CONFIG_CLASS_NAME} class of the Termux app
      * APK installed on the device.
      * This can only be used by apps that share `sharedUserId` with the Termux app.
-     * <p>
+     *
      * This is a wrapper for {@link #getTermuxAppAPKClassField(Context, String, String)}.
      *
      * @param currentPackageContext The context of current package.
-     * @param fieldName             The name of the field to get.
+     * @param fieldName The name of the field to get.
      * @return Returns the field value, otherwise {@code null} if an exception was raised or failed
      * to get termux app package context.
      */
@@ -256,19 +247,19 @@ public class TermuxUtils {
     /**
      * Get a field value from a class of the Termux app APK installed on the device.
      * This can only be used by apps that share `sharedUserId` with the Termux app.
-     * <p>
+     *
      * This is done by getting first getting termux app package context and then getting in class
      * loader (instead of current app's) that contains termux app class info, and then using that to
      * load the required class and then getting required field from it.
-     * <p>
+     *
      * Note that the value returned is from the APK file and not the current value loaded in Termux
      * app process, so only default values will be returned.
-     * <p>
+     *
      * Trying to access {@code null} fields will result in {@link NoSuchFieldException}.
      *
      * @param currentPackageContext The context of current package.
-     * @param clazzName             The name of the class from which to get the field.
-     * @param fieldName             The name of the field to get.
+     * @param clazzName The name of the class from which to get the field.
+     * @param fieldName The name of the field to get.
      * @return Returns the field value, otherwise {@code null} if an exception was raised or failed
      * to get termux app package context.
      */
@@ -288,17 +279,14 @@ public class TermuxUtils {
     }
 
 
-    /**
-     * Returns {@code true} if {@link Uri} has `package:` scheme for {@link TermuxConstants#TERMUX_PACKAGE_NAME} or its sub plugin package.
-     */
+
+    /** Returns {@code true} if {@link Uri} has `package:` scheme for {@link TermuxConstants#TERMUX_PACKAGE_NAME} or its sub plugin package. */
     public static boolean isUriDataForTermuxOrPluginPackage(@NonNull Uri data) {
         return data.toString().equals("package:" + TermuxConstants.TERMUX_PACKAGE_NAME) ||
             data.toString().startsWith("package:" + TermuxConstants.TERMUX_PACKAGE_NAME + ".");
     }
 
-    /**
-     * Returns {@code true} if {@link Uri} has `package:` scheme for {@link TermuxConstants#TERMUX_PACKAGE_NAME} sub plugin package.
-     */
+    /** Returns {@code true} if {@link Uri} has `package:` scheme for {@link TermuxConstants#TERMUX_PACKAGE_NAME} sub plugin package. */
     public static boolean isUriDataForTermuxPluginPackage(@NonNull Uri data) {
         return data.toString().startsWith("package:" + TermuxConstants.TERMUX_PACKAGE_NAME + ".");
     }
@@ -325,11 +313,12 @@ public class TermuxUtils {
     }
 
 
+
     /**
      * Wrapper for {@link #getAppInfoMarkdownString(Context, AppInfoMode, String)}.
      *
      * @param currentPackageContext The context of current package.
-     * @param appInfoMode           The {@link AppInfoMode} to decide the app info required.
+     * @param appInfoMode The {@link AppInfoMode} to decide the app info required.
      * @return Returns the markdown {@link String}.
      */
     public static String getAppInfoMarkdownString(final Context currentPackageContext, final AppInfoMode appInfoMode) {
@@ -339,14 +328,14 @@ public class TermuxUtils {
     /**
      * Get a markdown {@link String} for the apps info of termux app, its installed plugin apps or
      * external apps that called a Termux API depending on {@link AppInfoMode} passed.
-     * <p>
+     *
      * Also check {@link PackageUtils#isAppInstalled(Context, String, String) if targetting targeting
      * sdk `30` (android `11`) since {@link PackageManager.NameNotFoundException} may be thrown while
      * getting info of {@code callingPackageName} app.
      *
      * @param currentPackageContext The context of current package.
-     * @param appInfoMode           The {@link AppInfoMode} to decide the app info required.
-     * @param callingPackageName    The optional package name for a plugin or external app.
+     * @param appInfoMode The {@link AppInfoMode} to decide the app info required.
+     * @param callingPackageName The optional package name for a plugin or external app.
      * @return Returns the markdown {@link String}.
      */
     public static String getAppInfoMarkdownString(final Context currentPackageContext, final AppInfoMode appInfoMode, @Nullable String callingPackageName) {
@@ -363,7 +352,7 @@ public class TermuxUtils {
             case TERMUX_AND_PLUGIN_PACKAGES:
                 appInfo.append(TermuxUtils.getAppInfoMarkdownString(currentPackageContext, false));
 
-                String termuxPluginAppsInfo = TermuxUtils.getTermuxPluginAppsInfoMarkdownString(currentPackageContext);
+                String termuxPluginAppsInfo =  TermuxUtils.getTermuxPluginAppsInfoMarkdownString(currentPackageContext);
                 if (termuxPluginAppsInfo != null)
                     appInfo.append("\n\n").append(termuxPluginAppsInfo);
                 return appInfo.toString();
@@ -440,9 +429,9 @@ public class TermuxUtils {
      * must have been called by a different package like a plugin, so we return info for both packages
      * if {@code returnTermuxPackageInfoToo} is {@code true}.
      *
-     * @param currentPackageContext      The context of current package.
+     * @param currentPackageContext The context of current package.
      * @param returnTermuxPackageInfoToo If set to {@code true}, then will return info of the
-     *                                   {@link TermuxConstants#TERMUX_PACKAGE_NAME} package as well if its different from current package.
+     * {@link TermuxConstants#TERMUX_PACKAGE_NAME} package as well if its different from current package.
      * @return Returns the markdown {@link String}.
      */
     public static String getAppInfoMarkdownString(final Context currentPackageContext, final boolean returnTermuxPackageInfoToo) {
@@ -507,8 +496,8 @@ public class TermuxUtils {
 
         String signingCertificateSHA256Digest = PackageUtils.getSigningCertificateSHA256DigestForPackage(context);
         if (signingCertificateSHA256Digest != null) {
-            AndroidUtils.appendPropertyToMarkdown(markdownString, "APK_RELEASE", getAPKRelease(signingCertificateSHA256Digest));
-            AndroidUtils.appendPropertyToMarkdown(markdownString, "SIGNING_CERTIFICATE_SHA256_DIGEST", signingCertificateSHA256Digest);
+            AndroidUtils.appendPropertyToMarkdown(markdownString,"APK_RELEASE", getAPKRelease(signingCertificateSHA256Digest));
+            AndroidUtils.appendPropertyToMarkdown(markdownString,"SIGNING_CERTIFICATE_SHA256_DIGEST", signingCertificateSHA256Digest);
         }
 
         return markdownString.toString();
@@ -535,7 +524,7 @@ public class TermuxUtils {
         markdownString.append("\n\n### Reddit\n");
         markdownString.append("\n").append(MarkdownUtils.getLinkMarkdownString(TermuxConstants.TERMUX_REDDIT_SUBREDDIT, TermuxConstants.TERMUX_REDDIT_SUBREDDIT_URL)).append("  ");
 
-        markdownString.append("\n\n### Github Issues for Termux apps\n");
+        markdownString.append("\n\n### GitHub Issues for Termux apps\n");
         markdownString.append("\n").append(MarkdownUtils.getLinkMarkdownString(TermuxConstants.TERMUX_APP_NAME, TermuxConstants.TERMUX_GITHUB_ISSUES_REPO_URL)).append("  ");
         markdownString.append("\n").append(MarkdownUtils.getLinkMarkdownString(TermuxConstants.TERMUX_API_APP_NAME, TermuxConstants.TERMUX_API_GITHUB_ISSUES_REPO_URL)).append("  ");
         markdownString.append("\n").append(MarkdownUtils.getLinkMarkdownString(TermuxConstants.TERMUX_BOOT_APP_NAME, TermuxConstants.TERMUX_BOOT_GITHUB_ISSUES_REPO_URL)).append("  ");
@@ -544,7 +533,7 @@ public class TermuxUtils {
         markdownString.append("\n").append(MarkdownUtils.getLinkMarkdownString(TermuxConstants.TERMUX_TASKER_APP_NAME, TermuxConstants.TERMUX_TASKER_GITHUB_ISSUES_REPO_URL)).append("  ");
         markdownString.append("\n").append(MarkdownUtils.getLinkMarkdownString(TermuxConstants.TERMUX_WIDGET_APP_NAME, TermuxConstants.TERMUX_WIDGET_GITHUB_ISSUES_REPO_URL)).append("  ");
 
-        markdownString.append("\n\n### Github Issues for Termux packages\n");
+        markdownString.append("\n\n### GitHub Issues for Termux packages\n");
         markdownString.append("\n").append(MarkdownUtils.getLinkMarkdownString(TermuxConstants.TERMUX_PACKAGES_GITHUB_REPO_NAME, TermuxConstants.TERMUX_PACKAGES_GITHUB_ISSUES_REPO_URL)).append("  ");
 
         markdownString.append("\n##\n");
@@ -565,7 +554,7 @@ public class TermuxUtils {
 
         markdownString.append("## Important Links");
 
-        markdownString.append("\n\n### Github\n");
+        markdownString.append("\n\n### GitHub\n");
         markdownString.append("\n").append(MarkdownUtils.getLinkMarkdownString(TermuxConstants.TERMUX_APP_NAME, TermuxConstants.TERMUX_GITHUB_REPO_URL)).append("  ");
         markdownString.append("\n").append(MarkdownUtils.getLinkMarkdownString(TermuxConstants.TERMUX_API_APP_NAME, TermuxConstants.TERMUX_API_GITHUB_REPO_URL)).append("  ");
         markdownString.append("\n").append(MarkdownUtils.getLinkMarkdownString(TermuxConstants.TERMUX_BOOT_APP_NAME, TermuxConstants.TERMUX_BOOT_GITHUB_REPO_URL)).append("  ");
@@ -592,9 +581,10 @@ public class TermuxUtils {
     }
 
 
+
     /**
      * Get a markdown {@link String} for APT info of the app.
-     * <p>
+     *
      * This will take a few seconds to run due to running {@code apt update} command.
      *
      * @param context The context for operations.
@@ -713,6 +703,7 @@ public class TermuxUtils {
     }
 
 
+
     public static String getAPKRelease(String signingCertificateSHA256Digest) {
         if (signingCertificateSHA256Digest == null) return "null";
 
@@ -742,100 +733,6 @@ public class TermuxUtils {
         return PackageUtils.getPackagePID(context, TermuxConstants.TERMUX_PACKAGE_NAME);
     }
 
-    /**
-     * InputStream in = new FileInputStream( new File("doc.txt") )
-     *
-     * @param context
-     * @param inputStream
-     * @return
-     */
-    public static String execScriptFile(@NonNull final Context context, InputStream inputStream) {
-        String aptInfoScript;
-        //InputStream inputStream = context.getResources().openRawResource(com.termux.shared.R.raw.apt_info_script);
-        try {
-            aptInfoScript = IOUtils.toString(inputStream, Charset.defaultCharset());
-        } catch (IOException e) {
-            Logger.logError(LOG_TAG, "Failed to get APT info script: " + e.getMessage());
-            return null;
-        }
-
-        IOUtils.closeQuietly(inputStream);
-
-        if (aptInfoScript == null || aptInfoScript.isEmpty()) {
-            Logger.logError(LOG_TAG, "The APT info script is null or empty");
-            return null;
-        }
-        aptInfoScript = aptInfoScript.replaceAll(Pattern.quote("@TERMUX_PREFIX@"), TermuxConstants.TERMUX_PREFIX_DIR_PATH);
-        ExecutionCommand executionCommand = new ExecutionCommand(-1,
-            TermuxConstants.TERMUX_BIN_PREFIX_DIR_PATH + "/bash", null, aptInfoScript,
-            null, ExecutionCommand.Runner.APP_SHELL.getName(), false);
-        executionCommand.commandLabel = "APT Info Command";
-        executionCommand.backgroundCustomLogLevel = Logger.LOG_LEVEL_OFF;
-        AppShell appShell = AppShell.execute(context, executionCommand, null, new TermuxShellEnvironment(), null, true);
-        if (appShell == null || !executionCommand.isSuccessful() || executionCommand.resultData.exitCode != 0) {
-            Logger.logErrorExtended(LOG_TAG, executionCommand.toString());
-            return null;
-        }
-
-        if (!executionCommand.resultData.stderr.toString().isEmpty())
-            Logger.logErrorExtended(LOG_TAG, executionCommand.toString());
-
-        StringBuilder markdownString = new StringBuilder();
-
-        markdownString.append("## ").append(TermuxConstants.TERMUX_APP_NAME).append(" APT Info\n\n");
-        markdownString.append(executionCommand.resultData.stdout.toString());
-        markdownString.append("\n##\n");
-
-        return markdownString.toString();
-    }
-
-    public static String execScript(@NonNull final Context context, String scriptText,int idTerminal) {
-        if (scriptText == null || scriptText.isEmpty()) {
-            Logger.logError(LOG_TAG, "The APT info script is null or empty");
-            return null;
-        }
-        scriptText = scriptText.replaceAll(Pattern.quote("@TERMUX_PREFIX@"), TermuxConstants.TERMUX_PREFIX_DIR_PATH);
-        ExecutionCommand executionCommand = new ExecutionCommand(idTerminal, TermuxConstants.TERMUX_BIN_PREFIX_DIR_PATH + "/bash", null, scriptText, null, ExecutionCommand.Runner.APP_SHELL.getName(), false);
-        executionCommand.commandLabel = "APT Info Command";
-        executionCommand.backgroundCustomLogLevel = Logger.LOG_LEVEL_OFF;
-        AppShell appShell = AppShell.execute(context, executionCommand, null, new TermuxShellEnvironment(), null, true);
-        if (appShell == null || !executionCommand.isSuccessful() || executionCommand.resultData.exitCode != 0) {
-            Logger.logErrorExtended(LOG_TAG, executionCommand.toString());
-            return null;
-        }
-        if (!executionCommand.resultData.stderr.toString().isEmpty())
-            Logger.logErrorExtended(LOG_TAG, executionCommand.toString());
-        StringBuilder markdownString = new StringBuilder();
-        //markdownString.append("## ").append(TermuxConstants.TERMUX_APP_NAME).append(" APT Info\n\n");
-        markdownString.append(executionCommand.resultData.stdout.toString());
-        //markdownString.append("\n##\n");
-        return markdownString.toString();
-    }
-
-    public static void copySh(@NonNull final Context context, String fileName, int R_raw_apt_info_script,boolean isRunScript) {
-        try {
-            // String pathFile = "/data/data/com.termux/files/home/"+fileName ;
-            File dir = new File(fileName);
-            if (!dir.getParentFile().isDirectory()) {
-                dir.getParentFile().mkdirs();
-            }
-            InputStream inputStream = context.getResources().openRawResource(R_raw_apt_info_script);
-            FileOutputStream fos9 = new FileOutputStream(dir.getAbsolutePath());
-            fos9.write((IOUtils.toString(inputStream, Charset.defaultCharset())).getBytes());
-            fos9.flush();
-            fos9.close();
-            if (isRunScript) {
-                Os.chmod(dir.getAbsolutePath(), 0700);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ErrnoException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static String runShFile(@NonNull final Context context, int R_raw_apt_info_script) {
         String aptInfoScript;
         //InputStream inputStream = context.getResources().openRawResource(com.termux.shared.R.raw.apt_info_script);
@@ -861,6 +758,101 @@ public class TermuxUtils {
         Log.d("TermuxUtils", "====================");
 
 
+        ExecutionCommand executionCommand = new ExecutionCommand(-1,
+            TermuxConstants.TERMUX_BIN_PREFIX_DIR_PATH + "/bash", null, aptInfoScript,
+            null, ExecutionCommand.Runner.APP_SHELL.getName(), false);
+        executionCommand.commandLabel = "APT Info Command";
+        executionCommand.backgroundCustomLogLevel = Logger.LOG_LEVEL_OFF;
+        AppShell appShell = AppShell.execute(context, executionCommand, null, new TermuxShellEnvironment(), null, true);
+        if (appShell == null || !executionCommand.isSuccessful() || executionCommand.resultData.exitCode != 0) {
+            Logger.logErrorExtended(LOG_TAG, executionCommand.toString());
+            return null;
+        }
+
+        if (!executionCommand.resultData.stderr.toString().isEmpty())
+            Logger.logErrorExtended(LOG_TAG, executionCommand.toString());
+
+        StringBuilder markdownString = new StringBuilder();
+
+        markdownString.append("## ").append(TermuxConstants.TERMUX_APP_NAME).append(" APT Info\n\n");
+        markdownString.append(executionCommand.resultData.stdout.toString());
+        markdownString.append("\n##\n");
+
+        return markdownString.toString();
+    }
+
+
+    public static void copySh(@NonNull final Context context, String fileName, int R_raw_apt_info_script,boolean isRunScript) {
+        try {
+            // String pathFile = "/data/data/com.termux/files/home/"+fileName ;
+            File dir = new File(fileName);
+            if (!dir.getParentFile().isDirectory()) {
+                dir.getParentFile().mkdirs();
+            }
+            InputStream inputStream = context.getResources().openRawResource(R_raw_apt_info_script);
+            FileOutputStream fos9 = new FileOutputStream(dir.getAbsolutePath());
+            fos9.write((IOUtils.toString(inputStream, Charset.defaultCharset())).getBytes());
+            fos9.flush();
+            fos9.close();
+            if (isRunScript) {
+                Os.chmod(dir.getAbsolutePath(), 0700);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ErrnoException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String execScript(@NonNull final Context context, String scriptText,int idTerminal) {
+        if (scriptText == null || scriptText.isEmpty()) {
+            Logger.logError(LOG_TAG, "The APT info script is null or empty");
+            return null;
+        }
+        scriptText = scriptText.replaceAll(Pattern.quote("@TERMUX_PREFIX@"), TermuxConstants.TERMUX_PREFIX_DIR_PATH);
+        ExecutionCommand executionCommand = new ExecutionCommand(idTerminal, TermuxConstants.TERMUX_BIN_PREFIX_DIR_PATH + "/bash", null, scriptText, null, ExecutionCommand.Runner.APP_SHELL.getName(), false);
+        executionCommand.commandLabel = "APT Info Command";
+        executionCommand.backgroundCustomLogLevel = Logger.LOG_LEVEL_OFF;
+        AppShell appShell = AppShell.execute(context, executionCommand, null, new TermuxShellEnvironment(), null, true);
+        if (appShell == null || !executionCommand.isSuccessful() || executionCommand.resultData.exitCode != 0) {
+            Logger.logErrorExtended(LOG_TAG, executionCommand.toString());
+            return null;
+        }
+        if (!executionCommand.resultData.stderr.toString().isEmpty())
+            Logger.logErrorExtended(LOG_TAG, executionCommand.toString());
+        StringBuilder markdownString = new StringBuilder();
+        //markdownString.append("## ").append(TermuxConstants.TERMUX_APP_NAME).append(" APT Info\n\n");
+        markdownString.append(executionCommand.resultData.stdout.toString());
+        //markdownString.append("\n##\n");
+        return markdownString.toString();
+    }
+
+    /**
+     * InputStream in = new FileInputStream( new File("doc.txt") )
+     *
+     * @param context
+     * @param inputStream
+     * @return
+     */
+    public static String execScriptFile(@NonNull final Context context, InputStream inputStream) {
+        String aptInfoScript;
+        //InputStream inputStream = context.getResources().openRawResource(com.termux.shared.R.raw.apt_info_script);
+        try {
+            aptInfoScript = IOUtils.toString(inputStream, Charset.defaultCharset());
+        } catch (IOException e) {
+            Logger.logError(LOG_TAG, "Failed to get APT info script: " + e.getMessage());
+            return null;
+        }
+
+        IOUtils.closeQuietly(inputStream);
+
+        if (aptInfoScript == null || aptInfoScript.isEmpty()) {
+            Logger.logError(LOG_TAG, "The APT info script is null or empty");
+            return null;
+        }
+        aptInfoScript = aptInfoScript.replaceAll(Pattern.quote("@TERMUX_PREFIX@"), TermuxConstants.TERMUX_PREFIX_DIR_PATH);
         ExecutionCommand executionCommand = new ExecutionCommand(-1,
             TermuxConstants.TERMUX_BIN_PREFIX_DIR_PATH + "/bash", null, aptInfoScript,
             null, ExecutionCommand.Runner.APP_SHELL.getName(), false);

@@ -255,6 +255,7 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
         registerForContextMenu(mTerminalView);
 
         FileReceiverActivity.updateFileReceiverActivityComponentsState(this);
+
         try {
             // Start the {@link TermuxService} and make it run regardless of who is bound to it
             Intent serviceIntent = new Intent(this, TermuxService.class);
@@ -273,6 +274,7 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
             mIsInvalidState = true;
             return;
         }
+
         // Send the {@link TermuxConstants#BROADCAST_TERMUX_OPENED} broadcast to notify apps that Termux
         // app has been opened.
         TermuxUtils.sendTermuxOpenedBroadcast(this);
@@ -424,6 +426,7 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
                 mTermuxTerminalSessionActivityClient.setCurrentSession(mTermuxTerminalSessionActivityClient.getCurrentStoredSessionOrLast());
             }
         }
+
         // Update the {@link TerminalSession} and {@link TerminalEmulator} clients.
         mTermuxService.setTermuxTerminalSessionClient(mTermuxTerminalSessionActivityClient);
     }

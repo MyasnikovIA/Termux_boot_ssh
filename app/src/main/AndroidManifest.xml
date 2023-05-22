@@ -23,11 +23,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission
-        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
-        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -37,20 +34,8 @@
     <uses-permission android:name="android.permission.DUMP" />
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <uses-permission
-        android:name="android.permission.PACKAGE_USAGE_STATS"
-        tools:ignore="ProtectedPermissions" />
-
-    <!-- Добавляем автозапуск программы при перезагрузке -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.QUICKBOOT_POWERON" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-
-    <!-- Информация о компьютере -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
-    <!-- использование супер пользователя -->
-    <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions" />
 
     <application
         android:name=".app.TermuxApplication"
@@ -67,8 +52,8 @@
 
         <activity
             android:name=".app.TermuxActivity"
-            android:configChanges="orientation|screenSize|smallestScreenSize|density|screenLayout|keyboard|keyboardHidden|navigation"
             android:exported="true"
+            android:configChanges="orientation|screenSize|smallestScreenSize|density|screenLayout|keyboard|keyboardHidden|navigation"
             android:label="@string/application_name"
             android:launchMode="singleTask"
             android:resizeableActivity="true"
@@ -140,8 +125,8 @@
 
         <activity
             android:name=".shared.activities.ReportActivity"
-            android:documentLaunchMode="intoExisting"
-            android:theme="@style/Theme.MarkdownViewActivity.DayNight" />
+            android:theme="@style/Theme.MarkdownViewActivity.DayNight"
+            android:documentLaunchMode="intoExisting" />
 
         <activity
             android:name=".app.api.file.FileReceiverActivity"
@@ -150,7 +135,8 @@
             android:noHistory="true"
             android:resizeableActivity="true"
             android:taskAffinity="${TERMUX_PACKAGE_NAME}.filereceiver"
-            tools:targetApi="n"></activity>
+            tools:targetApi="n">
+        </activity>
 
         <activity-alias
             android:name=".app.api.file.FileShareReceiverActivity"

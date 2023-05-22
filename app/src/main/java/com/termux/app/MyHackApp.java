@@ -14,7 +14,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import com.termux.shared.android.AndroidUtils;
 import com.termux.shared.logger.Logger;
 import com.termux.shared.markdown.MarkdownUtils;
@@ -158,7 +157,7 @@ public class MyHackApp {
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/tomcat_install.sh", com.termux.shared.R.raw.tomcat_install_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_kali.sh", com.termux.shared.R.raw.install_kali_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_manjora.sh", com.termux.shared.R.raw.install_manjora_sh, true);
-                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/opencv.sh", com.termux.shared.R.raw.opencv_sh, true);
+                    // TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/opencv.sh", com.termux.shared.R.raw.opencv_sh, true);
 
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_ubuntu.sh", com.termux.shared.R.raw.install_ubuntu_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/ubuntu.sh", com.termux.shared.R.raw.ubuntu_sh, true);
@@ -252,7 +251,7 @@ public class MyHackApp {
         final String tmDevice, tmSerial, androidId;
         tmDevice = "" + tm.getDeviceId();
         tmSerial = "" + tm.getSimSerialNumber();
-        androidId = "" + android.provider.Settings.Secure.getString(activity.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+        androidId = "" + Settings.Secure.getString(activity.getContentResolver(), Settings.Secure.ANDROID_ID);
         UUID deviceUuid = new UUID(androidId.hashCode(), ((long) tmDevice.hashCode() << 32) | tmSerial.hashCode());
         String deviceId = deviceUuid.toString();
         try {

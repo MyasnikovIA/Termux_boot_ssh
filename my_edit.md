@@ -16,6 +16,10 @@ $ apt-get install -y ./openjdk-9-jre-headless_9.2017.8.20-1_arm.deb
 $ apt install ecj
 $ apt install dx
 
+-----
+Установка Java
+pkg install openjdk-17 -y 
+
 
 -----
 Установка Pytnon
