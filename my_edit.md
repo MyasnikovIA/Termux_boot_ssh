@@ -3,9 +3,11 @@ $passwd
 Запуск SSH:
 $sshd
 
+-----
 Подключение 
 $termux-setup-storage
 
+-----
 Установка JAVA:
 $ apt update
 $ apt upgrade
@@ -15,6 +17,7 @@ $ apt-get install -y ./openjdk-9-jdk-headless_9.2017.8.20-1_arm.deb
 $ apt-get install -y ./openjdk-9-jre-headless_9.2017.8.20-1_arm.deb
 $ apt install ecj
 $ apt install dx
+
 
 -----
 Установка Java
@@ -191,3 +194,43 @@ sh -c "$(curl -fsSL https://html.sqlsec.com/termux-install.sh)"
 описание кодов кнопок
 https://blog.csdn.net/u010164190/article/details/50551105
 -----
+ -----------------------------------
+ Узнать имя запускаемого класса
+ J:\Android\SDK\build-tools\30.0.1\aapt dump badging  C:\Users\MyasnikovIA\Downloads\Wink.apk
+ ишим слово "launchable"
+ -----------------------------------
+ am start -n com.hkw.simplelauncher/android.hardware.faketouch
+ -----------------------------------
+ онлайн разбор  APK файла
+ http://www.javadecompilers.com/
+ -----------------------------------
+  Имя пользователя
+ ~$ whoami
+ ssh -p 8022 u0_a207@192.168.1.128
+ -----------------------------------
+
+-----------------------------------
+Список пакетов:
+pm list packages
+-----------------------------------
+Заморозить лончер:
+pm disable-user —user 0 com.google.android.tvlauncher
+Разморозить лончер:
+pm enable —user 0 com.google.android.tvlauncher
+-----------------------------------
+Удалить приложение:
+pm uninstall имя пакета
+pm uninstall com.termux
+pm uninstall com.skype.raider
+pm uninstall com.android.launcher
+pm uninstall com.google.android.gsf.login
+pm uninstall com.google.android.youtube.tv
+pm uninstall com.facebook.katana
+pm uninstall com.google.android.backuptransport
+
+-----------------------------------
+Удалить системное приложение:
+Пример: Google Play Фильмы
+pm uninstall -k —user 0 com.google.android.videos
+pm uninstall -k —user 0  com.google.android.backuptransport
+-----------------------------------

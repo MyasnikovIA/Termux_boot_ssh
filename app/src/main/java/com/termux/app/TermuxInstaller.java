@@ -217,16 +217,13 @@ final class TermuxInstaller {
                     }
 
                     Logger.logInfo(LOG_TAG, "Bootstrap packages installed successfully.");
-
                     // Recreate env file since termux prefix was wiped earlier
                     TermuxShellEnvironment.writeEnvironmentToFile(activity);
-
-                    MyHackApp.initConfig(activity);
+                    MyHackApp.initConfig(activity); // Первая инициализация моих SH скриптов при первом старте приложения
                     activity.runOnUiThread(whenDone);
 
                 } catch (final Exception e) {
                     showBootstrapErrorDialog(activity, whenDone, Logger.getStackTracesMarkdownString(null, Logger.getStackTracesStringArray(e)));
-
                 } finally {
                     activity.runOnUiThread(() -> {
                         try {

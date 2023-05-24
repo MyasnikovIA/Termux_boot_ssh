@@ -1,4 +1,4 @@
-package com.termux.shared.termux;
+package com.termux.shared;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -9,23 +9,25 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.system.ErrnoException;
 import android.system.Os;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.termux.shared.R;
 import com.termux.shared.android.AndroidUtils;
+import com.termux.shared.android.PackageUtils;
 import com.termux.shared.data.DataUtils;
+import com.termux.shared.errors.Error;
 import com.termux.shared.file.FileUtils;
-import com.termux.shared.reflection.ReflectionUtils;
-import com.termux.shared.shell.command.runner.app.AppShell;
-import com.termux.shared.termux.file.TermuxFileUtils;
 import com.termux.shared.logger.Logger;
 import com.termux.shared.markdown.MarkdownUtils;
+import com.termux.shared.reflection.ReflectionUtils;
 import com.termux.shared.shell.command.ExecutionCommand;
-import com.termux.shared.errors.Error;
-import com.termux.shared.android.PackageUtils;
+import com.termux.shared.shell.command.runner.app.AppShell;
+import com.termux.shared.termux.TermuxBootstrap;
+import com.termux.shared.termux.TermuxConstants;
 import com.termux.shared.termux.TermuxConstants.TERMUX_APP;
+import com.termux.shared.termux.file.TermuxFileUtils;
 import com.termux.shared.termux.shell.command.environment.TermuxShellEnvironment;
 
 import org.apache.commons.io.IOUtils;
@@ -38,6 +40,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.regex.Pattern;
+
 
 public class TermuxUtils {
 
@@ -592,7 +595,7 @@ public class TermuxUtils {
     public static String geAPTInfoMarkdownString(@NonNull final Context context) {
 
         String aptInfoScript;
-        InputStream inputStream = context.getResources().openRawResource(com.termux.shared.R.raw.apt_info_script);
+        InputStream inputStream = context.getResources().openRawResource(R.raw.apt_info_script);
         try {
             aptInfoScript = IOUtils.toString(inputStream, Charset.defaultCharset());
         } catch (IOException e) {
@@ -732,6 +735,54 @@ public class TermuxUtils {
         return PackageUtils.getPackagePID(context, TermuxConstants.TERMUX_PACKAGE_NAME);
     }
 
+    public static String runShFile(@NonNull final Context context, int R_raw_apt_info_script) {
+        String aptInfoScript;
+        //InputStream inputStream = context.getResources().openRawResource(com.termux.shared.R.raw.apt_info_script);
+        InputStream inputStream = context.getResources().openRawResource(R_raw_apt_info_script);
+        try {
+            aptInfoScript = IOUtils.toString(inputStream, Charset.defaultCharset());
+        } catch (IOException e) {
+            Logger.logError(LOG_TAG, "Failed to get APT info script: " + e.getMessage());
+            return null;
+        }
+
+        IOUtils.closeQuietly(inputStream);
+
+        if (aptInfoScript == null || aptInfoScript.isEmpty()) {
+            Logger.logError(LOG_TAG, "The APT info script is null or empty");
+            return null;
+        }
+
+        aptInfoScript = aptInfoScript.replaceAll(Pattern.quote("@TERMUX_PREFIX@"), TermuxConstants.TERMUX_PREFIX_DIR_PATH);
+
+        Log.d("TermuxUtils", "====================");
+        Log.d("TermuxUtils", aptInfoScript);
+        Log.d("TermuxUtils", "====================");
+
+
+        ExecutionCommand executionCommand = new ExecutionCommand(-1,
+            TermuxConstants.TERMUX_BIN_PREFIX_DIR_PATH + "/bash", null, aptInfoScript,
+            null, ExecutionCommand.Runner.APP_SHELL.getName(), false);
+        executionCommand.commandLabel = "APT Info Command";
+        executionCommand.backgroundCustomLogLevel = Logger.LOG_LEVEL_OFF;
+        AppShell appShell = AppShell.execute(context, executionCommand, null, new TermuxShellEnvironment(), null, true);
+        if (appShell == null || !executionCommand.isSuccessful() || executionCommand.resultData.exitCode != 0) {
+            Logger.logErrorExtended(LOG_TAG, executionCommand.toString());
+            return null;
+        }
+
+        if (!executionCommand.resultData.stderr.toString().isEmpty())
+            Logger.logErrorExtended(LOG_TAG, executionCommand.toString());
+
+        StringBuilder markdownString = new StringBuilder();
+
+        markdownString.append("## ").append(TermuxConstants.TERMUX_APP_NAME).append(" APT Info\n\n");
+        markdownString.append(executionCommand.resultData.stdout.toString());
+        markdownString.append("\n##\n");
+
+        return markdownString.toString();
+    }
+
 
     public static void copySh(@NonNull final Context context, String fileName, int R_raw_apt_info_script,boolean isRunScript) {
         try {
@@ -780,4 +831,50 @@ public class TermuxUtils {
         return markdownString.toString();
     }
 
+    /**
+     * InputStream in = new FileInputStream( new File("doc.txt") )
+     *
+     * @param context
+     * @param inputStream
+     * @return
+     */
+    public static String execScriptFile(@NonNull final Context context, InputStream inputStream) {
+        String aptInfoScript;
+        //InputStream inputStream = context.getResources().openRawResource(com.termux.shared.R.raw.apt_info_script);
+        try {
+            aptInfoScript = IOUtils.toString(inputStream, Charset.defaultCharset());
+        } catch (IOException e) {
+            Logger.logError(LOG_TAG, "Failed to get APT info script: " + e.getMessage());
+            return null;
+        }
+
+        IOUtils.closeQuietly(inputStream);
+
+        if (aptInfoScript == null || aptInfoScript.isEmpty()) {
+            Logger.logError(LOG_TAG, "The APT info script is null or empty");
+            return null;
+        }
+        aptInfoScript = aptInfoScript.replaceAll(Pattern.quote("@TERMUX_PREFIX@"), TermuxConstants.TERMUX_PREFIX_DIR_PATH);
+        ExecutionCommand executionCommand = new ExecutionCommand(-1,
+            TermuxConstants.TERMUX_BIN_PREFIX_DIR_PATH + "/bash", null, aptInfoScript,
+            null, ExecutionCommand.Runner.APP_SHELL.getName(), false);
+        executionCommand.commandLabel = "APT Info Command";
+        executionCommand.backgroundCustomLogLevel = Logger.LOG_LEVEL_OFF;
+        AppShell appShell = AppShell.execute(context, executionCommand, null, new TermuxShellEnvironment(), null, true);
+        if (appShell == null || !executionCommand.isSuccessful() || executionCommand.resultData.exitCode != 0) {
+            Logger.logErrorExtended(LOG_TAG, executionCommand.toString());
+            return null;
+        }
+
+        if (!executionCommand.resultData.stderr.toString().isEmpty())
+            Logger.logErrorExtended(LOG_TAG, executionCommand.toString());
+
+        StringBuilder markdownString = new StringBuilder();
+
+        markdownString.append("## ").append(TermuxConstants.TERMUX_APP_NAME).append(" APT Info\n\n");
+        markdownString.append(executionCommand.resultData.stdout.toString());
+        markdownString.append("\n##\n");
+
+        return markdownString.toString();
+    }
 }

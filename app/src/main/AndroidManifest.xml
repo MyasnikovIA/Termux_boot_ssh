@@ -23,6 +23,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -49,7 +50,6 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.TermuxApp.DayNight.DarkActionBar"
         tools:targetApi="m">
-
         <activity
             android:name=".app.TermuxActivity"
             android:exported="true"
@@ -59,6 +59,7 @@
             android:resizeableActivity="true"
             android:theme="@style/Theme.TermuxActivity.DayNight.NoActionBar"
             tools:targetApi="n">
+            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -70,29 +71,21 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
 
+            v2
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
         </activity>
-        <!-- Добавляем автозапуск программы при перезагрузке -->
-        <receiver
-            android:name=".app.services.OnBootReceiver"
-            android:enabled="true"
-            android:exported="false"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </receiver>
-        <!-- =============================================== -->
         <activity-alias
             android:name=".HomeActivity"
             android:exported="true"
             android:targetActivity=".app.TermuxActivity">
-
             <!-- Launch activity automatically on boot on Android Things devices -->
             <intent-filter>
                 <!--
@@ -100,12 +93,12 @@
                 <category android:name="android.intent.category.IOT_LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
                 -->
-                <!-- =============== регистрировать как лаунчер в системе ==============-->
+                <!-- Делаем приложение лаунчером -->
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.HOME"/>
                 <category android:name="android.intent.category.DEFAULT" />
-                <!-- ================================================================== -->
+                <category android:name="android.intent.category.LAUNCHER" />
+                <!-- =========================== -->
             </intent-filter>
         </activity-alias>
 

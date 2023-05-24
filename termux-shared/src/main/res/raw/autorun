@@ -2,7 +2,7 @@
 
 # запуск SSH
 # /data/data/com.termux/files/usr/var/service/sshd
-sshd
+# sshd
 
 # Запуск VNC сервер
 #vncserver -xstartup /data/data/com.termux/files/usr/bin/startxfce4 -listen tcp  :1

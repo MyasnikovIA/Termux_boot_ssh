@@ -1,6 +1,6 @@
 package com.termux.app;
 
-import static com.termux.shared.termux.TermuxUtils.execScript;
+
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -88,23 +89,27 @@ public class MyHackApp {
     }
 
     public static void onBootDevice(Context context, Intent intent) {
+        Intent serviceIntent = new Intent(context, TermuxActivity.class);
+        context.startService(serviceIntent);
+        Toast.makeText(context,"Выполнилось",Toast.LENGTH_LONG).show();
+        /*
         // https://www.youtube.com/watch?v=4_CkU9L2mCo&ab_channel=CodinginFlow
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
             Intent i = new Intent(context, TermuxActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);
         }
+        */
     }
 
     public static void initConfig(Activity activity) {
         Log.d("TermuxActivity", "start");
-
         //  Подключаем пользовательские пакеты
         new Thread(new Runnable() {
             public void run() {
                 try {
                     Thread.sleep(5000);
-                    String cmdScript = "sh init_lib.sh";
+                    String cmdScript = "sh init_lib.sh"; // команда вводится через имитацию нажатия клавиш на клавиатуре
                     execTermuxScript(activity, new StringBuilder(" input text '" + cmdScript + "' && input keyevent 66 &&  echo 'OK' "));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -144,9 +149,12 @@ public class MyHackApp {
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/wink.sh", com.termux.shared.R.raw.wink_sh, true);
 
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/file_browser", com.termux.shared.R.raw.file_browser, true);
-                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/.termux/boot/redis.sh", com.termux.shared.R.raw.redis_sh, true);
+                    // TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/.termux/boot/redis.sh", com.termux.shared.R.raw.redis_sh, true);
+
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/.termux/boot/autorun", com.termux.shared.R.raw.autorun, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/.termux/boot/start_open_vpn.sh", com.termux.shared.R.raw.start_open_vpn_sh, true);
+                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/.termux/boot/sshd.sh", com.termux.shared.R.raw.sshd_sh, true);
+
                     //TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/.termux/boot/autorun.py", com.termux.shared.R.raw.autorun_py, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/lib", com.termux.shared.R.raw.lib, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/python_install.sh", com.termux.shared.R.raw.python_install_sh, true);
@@ -157,6 +165,7 @@ public class MyHackApp {
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/tomcat_install.sh", com.termux.shared.R.raw.tomcat_install_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_kali.sh", com.termux.shared.R.raw.install_kali_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_manjora.sh", com.termux.shared.R.raw.install_manjora_sh, true);
+                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_open_jdk.sh", com.termux.shared.R.raw.install_open_jdk_sh, true);
                     // TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/opencv.sh", com.termux.shared.R.raw.opencv_sh, true);
 
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_ubuntu.sh", com.termux.shared.R.raw.install_ubuntu_sh, true);
@@ -169,23 +178,6 @@ public class MyHackApp {
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/httpd.conf", com.termux.shared.R.raw.httpd_conf, false);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/httpd_user.conf", com.termux.shared.R.raw.httpd_conf_user, false);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/httpd_user.conf", com.termux.shared.R.raw.php_ini, false);
-
-                    // Узнать имя запускаемого класса
-                    // J:\Android\SDK\build-tools\30.0.1\aapt dump badging  C:\Users\MyasnikovIA\Downloads\Wink.apk
-                    // ишим слово "launchable"
-                    //
-                    //  am start -n com.hkw.simplelauncher/android.hardware.faketouch
-                    //
-                    // онлайн разбор  APK файла
-                    // http://www.javadecompilers.com/
-
-                    // -----------------------------------
-                    //   Имя пользователя
-                    // ~$ whoami
-                    //
-                    // ssh -p 8022 u0_a207@192.168.1.128
-                    // -----------------------------------
-
                 } else {
                     for (File file : dir.listFiles()) {
 
@@ -199,34 +191,7 @@ public class MyHackApp {
                             public void run() {
                                 NumTermLine++;
                                 String cmdScript = " chmod +x " + file.getAbsolutePath() + "  && sh " + file.getAbsolutePath() + " ";
-                                execScript(activity.getBaseContext(), cmdScript, NumTermLine);
-                                // execScript(activity.getBaseContext(),"redis-server", 2);
-                                // execTermuxScript(activity.getBaseContext(), new StringBuilder(cmdScript));
-                                /*try {
-                                    BufferedReader reader = new BufferedReader(new FileReader(file.getAbsolutePath()));
-                                    String line = null;
-
-                                    while ((line = reader.readLine()) != null) {
-                                        if (line.indexOf("#") != -1) {
-                                            line = line.split("#")[0];
-                                        }
-                                        line = line.replace("\"", "\\\"");
-                                        if (line.replace(" ", "").length() == 0) {
-                                            continue;
-                                        }
-                                        if (line.length() > 0) {
-                                            NumTermLine++;
-                                            String resultText = execScript(activity.getBaseContext(), line, NumTermLine);
-                                            // String resultText = execTermuxScript(activity.getBaseContext(), new StringBuilder(line));
-                                            if (resultText != null) {
-                                                Log.d("TermuxActivity", resultText);
-                                            }
-                                        }
-                                    }
-                                } catch (IOException ex) {
-                                    Log.e("TermuxActivity", ex.getMessage());
-                                }
-                                */
+                                TermuxUtils.execScript(activity.getBaseContext(), cmdScript, NumTermLine);
                             }
                         };
                         new Thread(taskScript).start();
