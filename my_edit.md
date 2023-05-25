@@ -210,27 +210,27 @@ https://blog.csdn.net/u010164190/article/details/50551105
  -----------------------------------
 
 -----------------------------------
+adb connect 192.168.0.112:5555
+
 Список пакетов:
 pm list packages
 -----------------------------------
 Заморозить лончер:
 pm disable-user —user 0 com.google.android.tvlauncher
+pm disable-user —user 0 com.droidlogic.mboxlauncher
+
+pm disable-user --user 0 com.droidlogic.mboxlauncher
+
 Разморозить лончер:
 pm enable —user 0 com.google.android.tvlauncher
 -----------------------------------
 Удалить приложение:
 pm uninstall имя пакета
 pm uninstall com.termux
-pm uninstall com.skype.raider
-pm uninstall com.android.launcher
-pm uninstall com.google.android.gsf.login
-pm uninstall com.google.android.youtube.tv
-pm uninstall com.facebook.katana
-pm uninstall com.google.android.backuptransport
 
 -----------------------------------
 Удалить системное приложение:
 Пример: Google Play Фильмы
 pm uninstall -k —user 0 com.google.android.videos
-pm uninstall -k —user 0  com.google.android.backuptransport
+pm uninstall -k —user 0 com.droidlogic.launcher
 -----------------------------------

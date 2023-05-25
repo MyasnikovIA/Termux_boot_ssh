@@ -1,0 +1,30 @@
+#!/data/data/com.termux/files/usr/bin/bash
+#pkg install openjdk-17 -y
+# install_open_jdk.sh
+
+
+# Setting up installation
+if [ ! -f $PREFIX/bin/wget ]
+then
+    apt update && apt upgrade -y && apt install wget -y
+fi
+
+cd /data/data/com.termux/files/home && \
+mkdir HttpServer_JAVA_jar && \
+cd /data/data/com.termux/files/home/HttpServer_JAVA_jar && \
+wget https://github.com/MyasnikovIA/HttpServer-JAVA-/raw/main/out/artifacts/HttpServer_JAVA_jar/HttpServer-JAVA.jar --show-progress -q && \
+wget https://github.com/MyasnikovIA/HttpServer-JAVA-/raw/main/out/artifacts/HttpServer_JAVA_jar/start_java_webserver.sh --show-progress -q && \
+wget https://github.com/MyasnikovIA/HttpServer-JAVA-/raw/main/out/artifacts/HttpServer_JAVA_jar/config.ini --show-progress -q && \
+mkdir lib && \
+cd lib && \
+wget https://github.com/MyasnikovIA/HttpServer-JAVA-/raw/main/lib/json-20230227.jar --show-progress -q && \
+wget https://github.com/MyasnikovIA/HttpServer-JAVA-/raw/main/lib/jsoup-1.15.4.jar --show-progress -q && \
+wget https://github.com/MyasnikovIA/HttpServer-JAVA-/raw/main/lib/postgresql-42.2.24.jar --show-progress -q && \
+cd ../  && \
+mkdir www && \
+cd www && \
+wget https://github.com/MyasnikovIA/HttpServer-JAVA-/raw/main/www/index.html --show-progress -q && \
+cd /data/data/com.termux/files/home/.termux/boot && \
+wget https://github.com/MyasnikovIA/HttpServer-JAVA-/raw/main/out/artifacts/HttpServer_JAVA_jar/start_java_webserver.sh --show-progress -q && \
+
+echo 'OK'

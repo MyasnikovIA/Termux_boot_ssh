@@ -1,5 +1,8 @@
 # Termux application
 [MyEdit_Info](my_edit.md)
+Собранный APK файл выложен на YandexDisk: 
+<br/>https://disk.yandex.ru/d/7SP_x0Jhsb2FFA
+
 
 [![Build status](https://github.com/termux/termux-app/workflows/Build/badge.svg)](https://github.com/termux/termux-app/actions)
 [![Testing status](https://github.com/termux/termux-app/workflows/Unit%20tests/badge.svg)](https://github.com/termux/termux-app/actions)
