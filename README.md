@@ -1,6 +1,7 @@
 # Termux application
 
-[MyEdit_Info](my_edit.md)
+<br/>[Мои индивидуальные изменения в проекте](my_edit.md)
+<br/>[Часто используемые команды](my_info.md)
 
 <hr/>
 <h3>
