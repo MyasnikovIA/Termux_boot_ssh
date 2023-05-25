@@ -1,6 +1,8 @@
 # Termux application
-<hr/>
+
 [MyEdit_Info](my_edit.md)
+
+<hr/>
 <h3>
 Собранный APK файл выложен на YandexDisk: 
 <br/>https://disk.yandex.ru/d/7SP_x0Jhsb2FFA
