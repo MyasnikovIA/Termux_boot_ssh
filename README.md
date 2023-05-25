@@ -1,6 +1,6 @@
 # Termux application
-<h3>
 [MyEdit_Info](my_edit.md)
+<h3>
 <br/>Собранный APK файл выложен на YandexDisk: 
 <br/>https://disk.yandex.ru/d/7SP_x0Jhsb2FFA
 </h3>
