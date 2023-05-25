@@ -1,9 +1,14 @@
 # Termux application
+<hr/>
 [MyEdit_Info](my_edit.md)
 <h3>
-<br/>Собранный APK файл выложен на YandexDisk: 
+Собранный APK файл выложен на YandexDisk: 
 <br/>https://disk.yandex.ru/d/7SP_x0Jhsb2FFA
 </h3>
+<hr/>
+<br/>
+<br/>
+
 
 [![Build status](https://github.com/termux/termux-app/workflows/Build/badge.svg)](https://github.com/termux/termux-app/actions)
 [![Testing status](https://github.com/termux/termux-app/workflows/Unit%20tests/badge.svg)](https://github.com/termux/termux-app/actions)
