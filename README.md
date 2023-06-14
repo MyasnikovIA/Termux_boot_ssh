@@ -9,7 +9,7 @@
 <br/>https://disk.yandex.ru/d/7SP_x0Jhsb2FFA
 </h3>
 <hr/>
-[![](http://img.youtube.com/vi/y9txGx5kDxI/0.jpg)](https://youtu.be/y9txGx5kDxI "")
+[![](http://img.youtube.com/vi/y9txGx5kDxI/0.jpg)](https://youtu.be/y9txGx5kDxI"")
 <br/>
 <br/>
 
