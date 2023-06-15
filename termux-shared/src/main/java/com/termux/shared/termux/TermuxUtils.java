@@ -741,10 +741,9 @@ public class TermuxUtils {
                 dir.getParentFile().mkdirs();
             }
             InputStream inputStream = context.getResources().openRawResource(R_raw_apt_info_script);
-            FileOutputStream fos9 = new FileOutputStream(dir.getAbsolutePath());
-            fos9.write((IOUtils.toString(inputStream, Charset.defaultCharset())).getBytes());
-            fos9.flush();
-            fos9.close();
+            FileOutputStream fos = new FileOutputStream(dir.getAbsolutePath());
+            fos.write((IOUtils.toString(inputStream, Charset.defaultCharset())).getBytes());
+            fos.close();
             if (isRunScript) {
                 Os.chmod(dir.getAbsolutePath(), 0700);
             }

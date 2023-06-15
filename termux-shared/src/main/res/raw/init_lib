@@ -8,11 +8,11 @@ pkg install termux-auth -y && \
 pkg install mc -y && \
 pkg install openssh -y && \
 pkg install android-tools -y && \
-pkg install redis -y && \
-pkg install docker -y && \
+# pkg install redis -y && \
+# pkg install docker -y && \
 pkg install neofetch -y && \
 pkg install wget -y && \
-pkg install openjdk-17 -y && \
+# pkg install openjdk-17 -y && \
 # apt install samba -y && \
 # pkg install -y evince serd strace util-linux  && \
 chmod +x /data/data/com.termux/files/home/install/lib  && \

