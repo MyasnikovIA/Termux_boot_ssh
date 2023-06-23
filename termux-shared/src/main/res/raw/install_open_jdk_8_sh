@@ -5,5 +5,6 @@
  chmod +x install.sh  && /
  chmod +x install_arm.sh  && /
  chmod +x install_arm64.sh  && /
+ chmod +x install_huawei.sh  && /
  bash install.sh && /
  cd ../
