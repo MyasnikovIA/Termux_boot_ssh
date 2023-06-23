@@ -166,6 +166,9 @@ public class MyHackApp {
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_kali.sh", com.termux.shared.R.raw.install_kali_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_manjora.sh", com.termux.shared.R.raw.install_manjora_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_open_jdk.sh", com.termux.shared.R.raw.install_open_jdk_sh, true);
+                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_open_jdk_9.sh", com.termux.shared.R.raw.install_open_jdk_9_sh, true);
+                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_open_jdk_8.sh", com.termux.shared.R.raw.install_open_jdk_8_sh, true);
+                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_open_jdk_11_sh", com.termux.shared.R.raw.install_open_jdk_11_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/install_http_server_jar.sh", com.termux.shared.R.raw.install_http_server_jar_sh, true);
                     // TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/opencv.sh", com.termux.shared.R.raw.opencv_sh, true);
 

@@ -1,0 +1,9 @@
+#!/data/data/com.termux/files/usr/bin/bash
+ pkg install git -y && /
+ git clone https://github.com/MyasnikovIA/Termux-Java-8.git && /
+ cd Termux-Java-8 && /
+ chmod +x install.sh  && /
+ chmod +x install_arm.sh  && /
+ chmod +x install_arm64.sh  && /
+ bash install.sh && /
+ cd ../

@@ -1,0 +1,7 @@
+#!/data/data/com.termux/files/usr/bin/bash
+wget http://www.cs.tohoku-gakuin.ac.jp/pub/Tools/OpenJ9/JDK11-HotSpot/OpenJDK11U-jdk_aarch64_linux_hotspot_11.0.19_7.tar.gz && /
+mkdir $PREFIX/lib/jvm && /
+tar -xf OpenJDK11U-jdk_aarch64_linux_hotspot_11.0.19_7.tar.gz -C $PREFIX/lib/jvm && /
+ln -sf $PREFIX/lib/jvm/jdk-11.0.19+7/bin/java $PREFIX/bin/java && /
+rm OpenJDK11U-jdk_aarch64_linux_hotspot_11.0.19_7.tar.gz && /
+java --version

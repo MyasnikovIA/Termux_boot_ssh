@@ -227,6 +227,7 @@ pm enable —user 0 com.google.android.tvlauncher
 Удалить приложение:
 pm uninstall имя пакета
 pm uninstall com.termux
+pm uninstall com.droidlogic.mboxlauncher
 
 -----------------------------------
 Удалить системное приложение:
