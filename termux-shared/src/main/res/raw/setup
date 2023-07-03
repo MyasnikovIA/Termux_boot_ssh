@@ -1,1 +1,2 @@
-am start com.android.tv.settings/.MainSettings
+am start com.android.tv.settings
+#am start com.android.tv.settings/.MainSettings

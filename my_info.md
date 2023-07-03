@@ -220,9 +220,11 @@ pm disable-user —user 0 com.google.android.tvlauncher
 pm disable-user —user 0 com.droidlogic.mboxlauncher
 
 pm disable-user --user 0 com.droidlogic.mboxlauncher
+                         
 
 Разморозить лончер:
 pm enable —user 0 com.google.android.tvlauncher
+                
 -----------------------------------
 Удалить приложение:
 pm uninstall имя пакета
