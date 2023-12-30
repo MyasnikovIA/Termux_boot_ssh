@@ -1,3 +1,5 @@
+apt upgrade && apt update && \
+apt update openssl-tool && \
 pkg install postgresql -y && \
 cd ../ && \
 mkdir postgres && \
