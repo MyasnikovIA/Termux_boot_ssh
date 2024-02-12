@@ -13,7 +13,8 @@ pkg install android-tools -y && \
 pkg install neofetch -y && \
 pkg install wget -y && \
 pkg install git -y && \
-# pkg install openjdk-17 -y && \
+pkg install openjdk-17 -y && \
+pkg install jython -y && \
 # apt install samba -y && \
 # pkg install -y evince serd strace util-linux  && \
 chmod +x /data/data/com.termux/files/home/install/lib  && \
@@ -22,4 +23,5 @@ chmod +x /data/data/com.termux/files/home/install/py && \
 chmod +x /data/data/com.termux/files/home/install/rdp  && \
 chmod +x /data/data/com.termux/files/home/install/ssh  && \
 sh /data/data/com.termux/files/home/install/ssh && \
+am start com.android.tv.settings && \
 neofetch
