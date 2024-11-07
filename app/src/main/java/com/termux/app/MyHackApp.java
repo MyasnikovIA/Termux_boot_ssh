@@ -3,8 +3,10 @@ package com.termux.app;
 
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.usb.UsbManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
@@ -23,6 +25,7 @@ import com.termux.shared.shell.command.runner.app.AppShell;
 import com.termux.shared.termux.TermuxConstants;
 import com.termux.shared.termux.TermuxUtils;
 import com.termux.shared.termux.shell.command.environment.TermuxShellEnvironment;
+import serial.FTDriver;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -32,6 +35,9 @@ import java.io.IOException;
 import java.util.UUID;
 
 public class MyHackApp {
+    private static FTDriver mSerial;
+    private static final String ACTION_USB_PERMISSION = "jp.ksksue.tutorial.USB_PERMISSION";
+
 
     /*
     // запустить MC в новой сессии
@@ -110,7 +116,7 @@ public class MyHackApp {
             public void run() {
                 try {
                     Thread.sleep(5000);
-                    String cmdScript = "sh init_lib.sh"; // команда вводится через имитацию нажатия клавиш на клавиатуре
+                    String cmdScript = "sh init_server_lib.sh"; // команда вводится через имитацию нажатия клавиш на клавиатуре
                     execTermuxScript(activity, new StringBuilder(" input text '" + cmdScript + "' && input keyevent 66 &&  echo 'OK' "));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -124,6 +130,10 @@ public class MyHackApp {
      * Все текстовые файлы вычитывыаются по строчно и помещаются в конслоль
      */
     public static void runUserScripts(AppCompatActivity activity) {
+
+        // [FTDriver] Create Instance
+        mSerial = new FTDriver((UsbManager)activity.getSystemService(Context.USB_SERVICE));
+
         new Thread(new Runnable() {
             public void run() {
                 try {
@@ -135,7 +145,7 @@ public class MyHackApp {
                 if (!dir.isDirectory()) {
                     dir.mkdirs();
 
-                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/init_lib.sh", com.termux.shared.R.raw.init_lib, true);
+                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/init_server_lib.sh", com.termux.shared.R.raw.init_server_lib_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/authorized_keys.ssh", com.termux.shared.R.raw.authorized_keys_ssh, false);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/.ssh/authorized_keys", com.termux.shared.R.raw.authorized_keys_ssh, false);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/info.txt", com.termux.shared.R.raw.info_txt, false);
@@ -147,6 +157,7 @@ public class MyHackApp {
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/vpn", com.termux.shared.R.raw.vpn, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/adb", com.termux.shared.R.raw.adb_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/wink.sh", com.termux.shared.R.raw.wink_sh, true);
+                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/launch.sh", com.termux.shared.R.raw.launch_sh, true);
 
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/file_browser", com.termux.shared.R.raw.file_browser, true);
                     // TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/.termux/boot/redis.sh", com.termux.shared.R.raw.redis_sh, true);
@@ -154,6 +165,7 @@ public class MyHackApp {
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/.termux/boot/autorun", com.termux.shared.R.raw.autorun, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/.termux/boot/start_open_vpn.sh", com.termux.shared.R.raw.start_open_vpn_sh, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/.termux/boot/sshd.sh", com.termux.shared.R.raw.sshd_sh, true);
+                    TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/.termux/boot/launch.sh", com.termux.shared.R.raw.launch_sh, true);
 
                     //TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/.termux/boot/autorun.py", com.termux.shared.R.raw.autorun_py, true);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/lib", com.termux.shared.R.raw.lib, true);
@@ -182,6 +194,11 @@ public class MyHackApp {
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/httpd.conf", com.termux.shared.R.raw.httpd_conf, false);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/httpd_user.conf", com.termux.shared.R.raw.httpd_conf_user, false);
                     TermuxUtils.copySh(activity, "/data/data/com.termux/files/home/install/httpd_user.conf", com.termux.shared.R.raw.php_ini, false);
+
+                    // https://github.com/ksksue/FTDriver/tree/master
+                    PendingIntent permissionIntent = PendingIntent.getBroadcast(activity.getBaseContext(), 0, new Intent(ACTION_USB_PERMISSION),  PendingIntent.FLAG_IMMUTABLE);
+                    mSerial.setPermissionIntent(permissionIntent);
+
                 } else {
                     for (File file : dir.listFiles()) {
                         if (getFileExtension(file).equals("py")) {

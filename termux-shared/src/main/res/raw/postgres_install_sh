@@ -1,16 +1,34 @@
-apt upgrade && apt update && \
-apt update openssl-tool && \
+#https://gist.github.com/oschannel/1b4eb34f18cc7e573ce57a8c1ed5dc22
 pkg install postgresql -y && \
-cd ../ && \
-mkdir postgres && \
-initdb ./postgres && \
-echo "host    all        all             192.168.0.0/24         md5" >> /data/data/com.termux/files/home/postgres/pg_hba.conf && \
+mkdir /data/data/com.termux/files/home/postgres  && \
+initdb /data/data/com.termux/files/home/postgres && \
+pg_ctl -D /data/data/com.termux/files/home/postgres start && \
+echo "host    all        all             192.168.15.0/24         md5" >> /data/data/com.termux/files/home/postgres/pg_hba.conf && \
 echo "listen_addresses = '*'" >> /data/data/com.termux/files/home/postgres/postgresql.conf  && \
-
 echo " " >> /data/data/com.termux/files/home/.termux/boot/start_postgres.sh && \
 echo "# Запуск PostgreSQL " >> /data/data/com.termux/files/home/.termux/boot/start_postgres.sh && \
 echo "pg_ctl -D /data/data/com.termux/files/home/postgres -l logfile start " >> /data/data/com.termux/files/home/.termux/boot/start_postgres.sh  && \
 echo " " >> /data/data/com.termux/files/home/.termux/boot/start_postgres.sh && \
 pg_ctl -D ./postgres -l logfile start  && \
 cd /data/data/com.termux/files/home/install/ && \
-createuser --superuser --pwprompt d3user
+createuser --superuser --pwprompt mis
+
+# ==============================================================================================================================
+# Если создавать руками, тогда потребуется следующая последовательность действий
+#
+#  1) pkg install postgresql
+#  2) mkdir /data/data/com.termux/files/home/postgres
+#  3) initdb /data/data/com.termux/files/home/postgres
+#  4) echo "host    all        all             192.168.15.0/24         md5" >> /data/data/com.termux/files/home/postgres/pg_hba.conf
+#  5) echo "listen_addresses = '*'" >> /data/data/com.termux/files/home/postgres/postgresql.conf
+#  6) Запустить сервер: pg_ctl -D /data/data/com.termux/files/home/postgres start
+#  7) Зайти в plsql под пользователем postgre: psql -d postgres
+#  8) CREATE USER my_user_name WITH PASSWORD 'my_user_pass' SUPERUSER;
+#  9) Выйти из sql консоли: exit
+#  10) Остановить сервер: pg_ctl -D /data/data/com.termux/files/home/postgres start
+#  11) Создать алиас для упрощения запска из командной строки(уточнить):
+#       alias pgstart=' pg_ctl -D /data/data/com.termux/files/home/postgres start' >> ~/.bashrc
+#       alias pgstop=' pg_ctl -D /data/data/com.termux/files/home/postgres stop' >> ~/.bashrc
+#  12) Добавить старn сервера в автозапуск:
+#       echo "pg_ctl -D /data/data/com.termux/files/home/postgres -l logfile start " >> /data/data/com.termux/files/home/.termux/boot/start_postgres.sh
+# ==============================================================================================================================

@@ -1,5 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/bash
-#pkg install openjdk-17 -y
+#pkg install openjdk-21 -y
 # install_open_jdk.sh
 
 

@@ -1,0 +1,12 @@
+# запуск Wink
+#am start -n com.hcy.hcylauncher/.MainActivity
+am start -n  com.droidlogic.mboxlauncher/.Launcher
+
+# Соединиться с устройством:
+#    adb connect 192.168.15.170
+# Получить список пакетов:
+#    adb -s 192.168.15.170 shell pm list packages -f
+# Получить список экшинов в пакете:
+#    adb -s 192.168.15.170 shell dumpsys package | findstr "com.hcy.hcylauncher" | findstr "Activity"
+# Запустить экшин в термакс(termax):
+#    am start -n com.hcy.hcylauncher/.MainActivity

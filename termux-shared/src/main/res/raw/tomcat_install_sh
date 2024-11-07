@@ -1,5 +1,5 @@
 
-pkg install openjdk-17 wget nmap -y  && \
+pkg install openjdk-21 wget nmap -y  && \
 mkdir /data/data/com.termux/files/home/TomCat   && \
 cd /data/data/com.termux/files/home/TomCat   && \
 wget https://archive.apache.org/dist/tomcat/tomcat-10/v10.0.23/bin/apache-tomcat-10.0.23.tar.gz  && \

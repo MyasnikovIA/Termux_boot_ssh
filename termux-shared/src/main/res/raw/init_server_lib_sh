@@ -13,7 +13,7 @@ pkg install android-tools -y && \
 pkg install neofetch -y && \
 pkg install wget -y && \
 pkg install git -y && \
-pkg install openjdk-17 -y && \
+pkg install openjdk-21 -y && \
 pkg install jython -y && \
 # apt install samba -y && \
 # pkg install -y evince serd strace util-linux  && \

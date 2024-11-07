@@ -21,7 +21,7 @@ $ apt install dx
 
 -----
 Установка Java
-pkg install openjdk-17 -y 
+pkg install openjdk-21 -y 
 
 
 -----

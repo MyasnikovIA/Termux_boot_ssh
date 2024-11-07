@@ -6,7 +6,7 @@ pkg install -y build-essential cmake git pkg-config &&
 
 
 #3. Install Java and set up its environment variables:
-pkg install openjdk-17  &&
+pkg install openjdk-21  &&
 
 # 4. Clone the OpenCV repository from GitHub:
 cd ../ &&

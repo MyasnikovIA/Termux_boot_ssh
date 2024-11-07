@@ -1,5 +1,5 @@
 #!/data/data/com.termux/files/usr/bin/bash
-# pkg install openjdk-17 -y && /
+# pkg install openjdk-21 -y && /
  pkg install wget -y && /
  pkg install git -y && /
  wget https://archive.org/download/openjdk-9-jre-headless_9.2017.8.20-1_x86_64/openjdk-9-jdk-headless_9.2017.8.20-1_arm.deb  && /
