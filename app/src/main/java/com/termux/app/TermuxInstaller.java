@@ -326,6 +326,25 @@ final class TermuxInstaller {
                         Os.symlink(audiobooksDir.getAbsolutePath(), new File(storageDir, "audiobooks").getAbsolutePath());
                     }
 
+                    File externalStorage = Environment.getExternalStorageDirectory().getParentFile().getParentFile();
+                    if (externalStorage != null && externalStorage.exists() && externalStorage.isDirectory()) {
+                        File[] directories = externalStorage.listFiles(File::isDirectory);
+                        if (directories != null && directories.length > 0) {
+                            for (File dir : directories) {
+                                if (!dir.getName().contains("-")) continue;
+                                String symlinkName = dir.getName();
+                                Logger.logInfo(LOG_TAG, "Setting up storage symlinks at ~/storage/" + symlinkName + " for \"" + dir.getAbsolutePath() + "\".");
+                                File dirExt = new File(storageDir, symlinkName);
+                                Os.symlink(dir.getAbsolutePath(), dirExt.getAbsolutePath());
+                                Os.chmod(dirExt.getAbsolutePath(), 777); // todo: это не работает, так как права только на чтение, нужно будет понять как выдать права на запись
+                            }
+                        } else {
+                            System.out.println("No directories found in /storage/");
+                        }
+                    } else {
+                        System.out.println("/storage/ directory not found or inaccessible");
+                    }
+
                     // Dir 0 should ideally be for primary storage
                     // https://cs.android.com/android/platform/superproject/+/android-12.0.0_r32:frameworks/base/core/java/android/app/ContextImpl.java;l=818
                     // https://cs.android.com/android/platform/superproject/+/android-12.0.0_r32:frameworks/base/core/java/android/os/Environment.java;l=219
