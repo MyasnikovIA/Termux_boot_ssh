@@ -3,6 +3,21 @@ $passwd
 Запуск SSH:
 $sshd
 
+
+-----
+Показать какой лайнчер используется по омолчанию
+1. Самый простой способ (Android 5.0+)
+ adb shell cmd shortcut get-default-launcher
+ adb shell am stack list | grep -i "launcher"
+
+2. Получить информацию о всех лаунчерах
+adb shell pm list packages | grep -i launcher
+
+Установка другого лаунчера по умолчанию (если нужно)
+adb shell cmd package set-home-activity "com.example.launcher"
+
+запуск лаунчера
+am start -n  com.droidlogic.mboxlauncher/.Launcher
 -----
 Подключение 
 $termux-setup-storage
@@ -22,7 +37,7 @@ $ apt install dx
 -----
 Установка Java
 pkg install openjdk-21 -y 
-
+pkg install openjdk-25 -y
 
 -----
 Установка Pytnon

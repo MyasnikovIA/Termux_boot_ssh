@@ -1,6 +1,11 @@
 # запуск Wink
 #am start -n com.hcy.hcylauncher/.MainActivity
-am start -n  com.droidlogic.mboxlauncher/.Launcher
+
+# H96Max4K (Квадратная приставка)
+#am start -n  com.droidlogic.mboxlauncher/.Launcher
+
+# H96Max8K Ultra HD (Круглая приставка)
+am start -n com.hcy.hcylauncher/.MainActivity
 
 # Соединиться с устройством:
 #    adb connect 192.168.15.170
